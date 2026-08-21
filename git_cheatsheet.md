@@ -82,6 +82,7 @@ Vedle souboru může VS Code zobrazovat písmena:
 U → Untracked
 M → Modified
 A → Added / staged
+D → Deleted
 ```
 
 ### U — Untracked
@@ -127,6 +128,21 @@ znamená:
 ```text
 soubor byl přidán přes git add
 → je připravený pro commit
+```
+
+### D — Deleted
+
+Například:
+
+```text
+practice.txt  D
+```
+
+znamená:
+
+```text
+soubor byl odstraněn
+→ Git eviduje jeho smazání
 ```
 
 ---
@@ -376,6 +392,7 @@ Add Git cheatsheet
 Update README
 Fix filtering example
 Add pandas lesson 7
+Remove practice file
 ```
 
 Commit message by měla být:
@@ -652,7 +669,144 @@ se připraví do staging area.
 
 ---
 
-## 21. git add více souborů
+## 21. Mazání souboru přes Git
+
+Pokud chceš soubor odstranit přímo přes Git:
+
+```powershell
+git rm practice.txt
+```
+
+Tím Git udělá dvě věci najednou:
+
+```text
+1. smaže soubor z pracovní složky
+2. připraví smazání do staging area
+```
+
+Potom zkontroluj:
+
+```powershell
+git status
+```
+
+Můžeš vidět například:
+
+```text
+Changes to be committed:
+    deleted: practice.txt
+```
+
+Následně:
+
+```powershell
+git commit -m "Remove practice file"
+```
+
+a:
+
+```powershell
+git push
+```
+
+Tím se smazání projeví i na GitHubu.
+
+Workflow:
+
+```text
+git rm practice.txt
+→ git status
+→ git commit -m "Remove practice file"
+→ git push
+```
+
+---
+
+## 22. Smazání souboru ručně ve VS Code
+
+Soubor můžeš odstranit i běžně ve VS Code.
+
+Například:
+
+```text
+pravé tlačítko na soubor
+→ Delete
+```
+
+Git si všimne, že sledovaný soubor zmizel.
+
+Potom:
+
+```powershell
+git status
+```
+
+může ukázat:
+
+```text
+deleted: practice.txt
+```
+
+Smazání je ale ještě potřeba přidat do staging area:
+
+```powershell
+git add practice.txt
+```
+
+nebo obecně:
+
+```powershell
+git add -A
+```
+
+Potom:
+
+```powershell
+git commit -m "Remove practice file"
+git push
+```
+
+---
+
+## 23. `git rm` vs. ruční smazání
+
+### `git rm`
+
+```powershell
+git rm practice.txt
+```
+
+Výhoda:
+
+```text
+smaže soubor
++
+rovnou připraví smazání do staging area
+```
+
+### Ruční smazání
+
+```text
+Delete ve VS Code
+```
+
+pak ještě:
+
+```powershell
+git add practice.txt
+```
+
+nebo:
+
+```powershell
+git add -A
+```
+
+Prakticky je `git rm` čistší, pokud už předem víš, že chceš sledovaný soubor odstranit.
+
+---
+
+## 24. git add více souborů
 
 Konkrétní soubor:
 
@@ -684,11 +838,25 @@ znamená:
 aktuální složka a její změny
 ```
 
-Na začátku je lepší často používat konkrétní názvy souborů, protože přesně víš, co přidáváš.
+### `git add -A`
+
+```powershell
+git add -A
+```
+
+přidá všechny změny, včetně:
+
+```text
+nových souborů
+změněných souborů
+smazaných souborů
+```
+
+Na začátku je ale často lepší používat konkrétní názvy souborů, protože přesně víš, co dáváš do commitu.
 
 ---
 
-## 22. Kontrola před commitem
+## 25. Kontrola před commitem
 
 Dobrá praxe:
 
@@ -713,7 +881,7 @@ co se skutečně commitne
 
 ---
 
-## 23. Kontrola po commitu
+## 26. Kontrola po commitu
 
 Po:
 
@@ -741,7 +909,7 @@ všechny aktuální změny jsou uložené v commitu
 
 ---
 
-## 24. Kontrola po pushi
+## 27. Kontrola po pushi
 
 Po:
 
@@ -754,12 +922,12 @@ můžeš:
 ```text
 otevřít GitHub
 → obnovit stránku repozitáře
-→ ověřit nový soubor nebo změnu
+→ ověřit nový soubor, změnu nebo smazání
 ```
 
 ---
 
-## 25. VS Code Source Control
+## 28. VS Code Source Control
 
 Ve VS Code je vlevo ikona:
 
@@ -782,7 +950,7 @@ Pro výuku je ale dobré nejdřív používat terminál, protože přesně vidí
 
 ---
 
-## 26. Uložení souboru před Git příkazy
+## 29. Uložení souboru před Git příkazy
 
 Před:
 
@@ -802,7 +970,7 @@ Ve VS Code může neuložený soubor indikovat tečka na záložce.
 
 ---
 
-## 27. Otevřená správná složka
+## 30. Otevřená správná složka
 
 V Exploreru VS Code by měla být nahoře vidět složka repozitáře, například:
 
@@ -820,7 +988,7 @@ To pomáhá předejít situaci, kdy Git příkazy spouštíš ve špatném adres
 
 ---
 
-## 28. Rychlý Git tahák
+## 31. Rychlý Git tahák
 
 ```powershell
 # verze Gitu
@@ -832,8 +1000,11 @@ git status
 # přidání jednoho souboru
 git add README.md
 
-# přidání všech změn
+# přidání všech změn v aktuální složce
 git add .
+
+# přidání všech změn včetně smazání
+git add -A
 
 # commit
 git commit -m "Popis změny"
@@ -849,11 +1020,16 @@ git clone URL
 
 # zobrazení větví
 git branch
+
+# smazání sledovaného souboru
+git rm practice.txt
 ```
 
 ---
 
-## 29. Nejčastější workflow
+## 32. Nejčastější workflow
+
+### Nový nebo upravený soubor
 
 ```powershell
 git status
@@ -865,13 +1041,25 @@ git commit -m "Add Git cheatsheet"
 git push
 ```
 
+### Smazání souboru
+
+```powershell
+git rm practice.txt
+
+git status
+
+git commit -m "Remove practice file"
+
+git push
+```
+
 Význam:
 
 ```text
 git status
 → co se změnilo?
 
-git add
+git add / git rm
 → co chci zahrnout do commitu?
 
 git commit
@@ -883,7 +1071,7 @@ git push
 
 ---
 
-## 30. Mentální model
+## 33. Mentální model
 
 Nejdůležitější je držet si tento obraz:
 
@@ -892,7 +1080,7 @@ VS Code
 ↓
 Working directory
 ↓
-git add
+git add / git rm
 ↓
 Staging area
 ↓
@@ -919,7 +1107,7 @@ Working directory
 
 ---
 
-## 31. Co si zatím stačí pamatovat
+## 34. Co si zatím stačí pamatovat
 
 ```text
 git clone
@@ -930,6 +1118,9 @@ git status
 
 git add
 → připrav změnu
+
+git rm
+→ smaž sledovaný soubor a připrav smazání
 
 git commit
 → ulož změnu do historie
@@ -943,7 +1134,7 @@ git pull
 
 ---
 
-## 32. Další témata pro později
+## 35. Další témata pro později
 
 ```text
 .gitignore
