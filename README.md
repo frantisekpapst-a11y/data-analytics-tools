@@ -1,17 +1,29 @@
-# Git Practice
+# Git & VS Code Practice
 
-Tento repozitář slouží k procvičování základní práce s Gitem a GitHubem ve VS Code.
+Tento repozitář slouží k procvičování základní práce s Gitem, GitHubem a Visual Studio Code.
 
 ## Obsah
 
 * základní Git workflow
 * práce se staging area
-* commit a push
-* pull a clone
-* mazání souborů přes Git
-* praktický Git + VS Code cheatsheet
+* commit, push, pull a clone
+* mazání a přesouvání souborů přes Git
+* práce s remote repozitářem
+* základní orientace ve VS Code
+* praktické cheatsheety pro Git a VS Code
 
-## Základní workflow
+## Struktura
+
+```text
+git-vs-code-practice/
+├── git/
+│   └── git_cheatsheet.md
+├── vs-code/
+│   └── vscode_cheatsheet.md
+└── README.md
+```
+
+## Základní Git workflow
 
 ```text
 změna souboru
@@ -21,10 +33,20 @@ změna souboru
 → git push
 ```
 
-## Hlavní soubor
+## Cheatsheety
+
+### Git
 
 ```text
-git_cheatsheet.md
+git/git_cheatsheet.md
 ```
 
-Obsahuje stručný přehled nejdůležitějších Git příkazů a poznámky k práci ve VS Code.
+Obsahuje přehled základních Git příkazů, workflow a poznámky k práci s GitHubem.
+
+### VS Code
+
+```text
+vs-code/vscode_cheatsheet.md
+```
+
+Obsahuje poznámky k práci ve VS Code, práci se soubory, terminálem, Pythonem a Git integrací.
