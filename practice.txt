@@ -1,2 +1,0 @@
-První změna v Git repozitáři.
-Druhá změna v Git repozitáři.
