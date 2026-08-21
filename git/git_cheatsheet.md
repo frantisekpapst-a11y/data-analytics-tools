@@ -1,10 +1,28 @@
-# Git + VS Code Cheatsheet
+# Git Cheatsheet
 
-Praktický tahák pro základní práci s Gitem ve VS Code.
+Praktický tahák pro základní práci s Gitem, GitHubem a VS Code.
 
 ---
 
-## 1. Základní princip
+## 1. Git vs. GitHub
+
+```text
+Git
+→ verzovací systém
+→ sleduje historii změn projektu
+
+GitHub
+→ online služba
+→ ukládá vzdálené Git repozitáře
+```
+
+Git funguje i bez GitHubu.
+
+GitHub je místo, kam můžeme lokální Git repozitář odesílat.
+
+---
+
+## 2. Základní princip
 
 Git pracuje s několika úrovněmi:
 
@@ -19,13 +37,13 @@ Význam:
 
 ```text
 Working directory
-→ soubory, které právě upravuješ ve VS Code
+→ soubory, které právě upravuji
 
 Staging area
-→ změny vybrané pro další commit
+→ změny připravené pro další commit
 
 Local repository
-→ commity uložené lokálně na počítači
+→ historie commitů uložená na počítači
 
 Remote repository
 → vzdálený repozitář, například GitHub
@@ -34,7 +52,7 @@ Remote repository
 Základní workflow:
 
 ```text
-upravím soubor
+změna souboru
 → git status
 → git add
 → git commit
@@ -43,142 +61,30 @@ upravím soubor
 
 ---
 
-## 2. VS Code a Git
+## 3. Otevření repozitáře ve VS Code
 
-Ve VS Code je praktické otevřít celý repozitář jako složku:
+Je praktické otevřít celý repozitář:
 
 ```text
 File
 → Open Folder
-→ vyber složku repozitáře
 ```
 
 Například:
 
 ```text
-C:\Users\frant\Documents\data-analytics-workspace\git-practice
+C:\Users\frant\Documents\data-analytics-workspace\git-vs-code-practice
 ```
 
-Díky tomu:
-
-```text
-VS Code
-→ vidí celý projekt
-
-Terminal
-→ otevře se ve správné složce
-
-Git
-→ pracuje nad správným repozitářem
-```
-
----
-
-## 3. Jak poznám změny ve VS Code
-
-Vedle souboru může VS Code zobrazovat písmena:
-
-```text
-U → Untracked
-M → Modified
-A → Added / staged
-D → Deleted
-```
-
-### U — Untracked
-
-Například:
-
-```text
-practice.txt  U
-```
-
-znamená:
-
-```text
-soubor existuje
-→ Git ho ještě nesleduje
-```
-
-### M — Modified
-
-Například:
-
-```text
-README.md  M
-```
-
-znamená:
-
-```text
-soubor už Git zná
-→ ale byl změněn
-```
-
-### A — Added
-
-Například:
-
-```text
-git_cheatsheet.md  A
-```
-
-znamená:
-
-```text
-soubor byl přidán přes git add
-→ je připravený pro commit
-```
-
-### D — Deleted
-
-Například:
-
-```text
-practice.txt  D
-```
-
-znamená:
-
-```text
-soubor byl odstraněn
-→ Git eviduje jeho smazání
-```
-
----
-
-## 4. Terminál ve VS Code
-
-Terminál otevřeš:
-
-```text
-Terminal
-→ New Terminal
-```
-
-nebo klávesovou zkratkou:
-
-```text
-Ctrl + `
-```
-
-V terminálu vždy sleduj, ve které složce právě jsi.
-
-Například:
+Terminál by měl být ve stejné složce:
 
 ```powershell
-PS C:\Users\frant\Documents\data-analytics-workspace\git-practice>
-```
-
-To znamená, že Git příkazy budou pracovat nad repozitářem:
-
-```text
-git-practice
+PS C:\Users\frant\Documents\data-analytics-workspace\git-vs-code-practice>
 ```
 
 ---
 
-## 5. Kontrola instalace Gitu
+## 4. Kontrola instalace Gitu
 
 ```powershell
 git --version
@@ -190,19 +96,19 @@ Příklad:
 git version 2.55.0.windows.1
 ```
 
-Pokud příkaz nefunguje:
+Pokud Windows hlásí:
 
 ```text
 git is not recognized
 ```
 
-Git pravděpodobně není nainstalovaný nebo není v `PATH`.
+Git není nainstalovaný nebo není dostupný přes `PATH`.
 
 ---
 
-## 6. Klonování repozitáře
+## 5. Klonování repozitáře
 
-Pokud repozitář existuje na GitHubu:
+Pokud repozitář už existuje na GitHubu:
 
 ```powershell
 git clone URL_REPOZITARE
@@ -211,36 +117,45 @@ git clone URL_REPOZITARE
 Například:
 
 ```powershell
-git clone https://github.com/username/git-practice.git
+git clone https://github.com/username/git-vs-code-practice.git
 ```
 
 Potom:
 
 ```powershell
-cd git-practice
+cd git-vs-code-practice
 ```
 
-Význam:
+Princip:
 
 ```text
-git clone
-→ stáhne repozitář z GitHubu do počítače
-
-cd git-practice
-→ přesune terminál do složky repozitáře
+GitHub
+→ git clone
+→ lokální kopie repozitáře
 ```
 
 ---
 
-## 7. git status
+## 6. `git status`
 
 ```powershell
 git status
 ```
 
-Ukáže aktuální stav repozitáře.
+Je jeden z nejdůležitějších Git příkazů.
 
-Příklad čistého stavu:
+Ukazuje:
+
+```text
+aktuální branch
+nové soubory
+změněné soubory
+smazané soubory
+staged změny
+nestaged změny
+```
+
+Čistý stav:
 
 ```text
 On branch main
@@ -253,13 +168,13 @@ Význam:
 
 ```text
 On branch main
-→ pracuješ na větvi main
+→ pracuji na větvi main
 
 up to date with origin/main
-→ lokální verze odpovídá GitHubu
+→ lokální a vzdálená větev jsou synchronizované
 
 nothing to commit
-→ nejsou žádné změny k uložení
+→ nejsou změny pro commit
 
 working tree clean
 → pracovní složka je čistá
@@ -267,75 +182,72 @@ working tree clean
 
 ---
 
-## 8. Untracked files
+## 7. Stavy souborů ve VS Code
 
-Pokud vytvoříš nový soubor:
-
-```text
-git_cheatsheet.md
-```
-
-a spustíš:
-
-```powershell
-git status
-```
-
-Git může ukázat:
+VS Code může u souborů zobrazovat:
 
 ```text
-Untracked files:
-    git_cheatsheet.md
+U → Untracked
+M → Modified
+A → Added
+D → Deleted
 ```
 
-To znamená:
+### U — Untracked
 
 ```text
-soubor existuje
-→ Git o něm ví
-→ ale zatím ho nesleduje
+vscode_cheatsheet.md  U
 ```
+
+Soubor existuje, ale Git ho ještě nesleduje.
+
+### M — Modified
+
+```text
+README.md  M
+```
+
+Soubor už Git zná, ale byl změněn.
+
+### A — Added
+
+```text
+vscode_cheatsheet.md  A
+```
+
+Soubor byl přidán do staging area.
+
+### D — Deleted
+
+```text
+practice.txt  D
+```
+
+Git eviduje smazání souboru.
 
 ---
 
-## 9. git add
+## 8. `git add`
+
+Konkrétní soubor:
 
 ```powershell
-git add git_cheatsheet.md
+git add README.md
 ```
 
-Tím řekneš Gitu:
+Soubor v podsložce:
+
+```powershell
+git add vs-code/vscode_cheatsheet.md
+```
+
+Tím říkáme:
 
 ```text
 tuto změnu chci zahrnout do dalšího commitu
 ```
 
-Soubor se přesune do:
-
-```text
-Staging area
-```
-
-Potom:
-
-```powershell
-git status
-```
-
-může ukázat:
-
-```text
-Changes to be committed:
-    new file: git_cheatsheet.md
-```
-
----
-
-## 10. Staging area
-
-Staging area je přípravná oblast před commitem.
-
-Princip:
+Workflow:
 
 ```text
 Working directory
@@ -343,30 +255,172 @@ Working directory
 → Staging area
 ```
 
-Můžeš mít více změněných souborů, ale do commitu vybrat jen některé.
+---
+
+## 9. Relativní cesta k souboru
+
+Pokud jsem v kořenu repozitáře:
+
+```text
+git-vs-code-practice/
+```
+
+a soubor je zde:
+
+```text
+vs-code/vscode_cheatsheet.md
+```
+
+nestačí:
+
+```powershell
+git add vscode_cheatsheet.md
+```
+
+Git ho v kořenové složce nenajde.
+
+Správně:
+
+```powershell
+git add vs-code/vscode_cheatsheet.md
+```
+
+Obecný princip:
+
+```text
+aktuální složka
+→ relativní cesta k souboru
+```
+
+---
+
+## 10. Chyba `pathspec did not match any files`
+
+Například:
+
+```powershell
+git add vscode_cheatsheet.md
+```
+
+může vrátit:
+
+```text
+pathspec 'vscode_cheatsheet.md' did not match any files
+```
+
+Typický důvod:
+
+```text
+soubor není v aktuální složce
+→ je například v podsložce
+```
+
+Řešení:
+
+```powershell
+git add vs-code/vscode_cheatsheet.md
+```
+
+nebo:
+
+```powershell
+git add .
+```
+
+---
+
+## 11. `git add .`
+
+```powershell
+git add .
+```
+
+Tečka znamená:
+
+```text
+aktuální složka
++
+její podsložky
+```
+
+Hodí se například při reorganizaci projektu:
+
+```text
+git/
+vs-code/
+README.md
+```
+
+kdy chceme připravit více změn najednou.
+
+Například:
+
+```powershell
+git add .
+git status
+```
+
+---
+
+## 12. `git add -A`
+
+```powershell
+git add -A
+```
+
+Přidá všechny změny:
+
+```text
+nové soubory
+změněné soubory
+smazané soubory
+```
+
+Na začátku je bezpečnější používat:
+
+```powershell
+git status
+```
+
+a vědět, co přesně staging area obsahuje.
+
+---
+
+## 13. Staging area
+
+Staging area je přípravná oblast před commitem.
 
 Například:
 
 ```text
 README.md
-practice.txt
-git_cheatsheet.md
+git/git_cheatsheet.md
+vs-code/vscode_cheatsheet.md
 ```
 
-Můžeš přidat jen:
+mohou být změněné, ale pomocí `git add` rozhodujeme, které změny půjdou do dalšího commitu.
 
-```powershell
-git add git_cheatsheet.md
+Princip:
+
+```text
+Working directory
+→ git add
+→ Staging area
+→ git commit
 ```
-
-a ostatní změny zatím nechat mimo commit.
 
 ---
 
-## 11. git commit
+## 14. `git commit`
 
 ```powershell
-git commit -m "Add Git cheatsheet"
+git commit -m "Popis změny"
+```
+
+Například:
+
+```powershell
+git commit -m "Add VS Code cheatsheet and organize notes"
 ```
 
 Commit je uložený bod historie projektu.
@@ -383,19 +437,7 @@ znamená:
 message
 ```
 
-tedy zpráva popisující změnu.
-
-Příklad dobré commit message:
-
-```text
-Add Git cheatsheet
-Update README
-Fix filtering example
-Add pandas lesson 7
-Remove practice file
-```
-
-Commit message by měla být:
+Dobrá commit message je:
 
 ```text
 krátká
@@ -403,37 +445,41 @@ konkrétní
 srozumitelná
 ```
 
+Příklady:
+
+```text
+Add Git cheatsheet
+Add VS Code cheatsheet
+Update README
+Remove practice file
+Organize Git and VS Code notes
+```
+
 ---
 
-## 12. Co commit skutečně dělá
-
-Workflow:
+## 15. Co se stane po commitu
 
 ```text
 git add
-→ změna je ve staging area
+→ staging area
 
 git commit
-→ změna se uloží do lokální historie
+→ local repository
 ```
 
-Po commitu změna ještě není automaticky na GitHubu.
+Po commitu změna ještě nemusí být na GitHubu.
 
-Je zatím pouze v:
-
-```text
-Local repository
-```
+Je uložená pouze lokálně.
 
 ---
 
-## 13. git push
+## 16. `git push`
 
 ```powershell
 git push
 ```
 
-Odešle lokální commity na GitHub.
+Odešle lokální commity na vzdálený repozitář.
 
 Workflow:
 
@@ -443,29 +489,24 @@ Local repository
 → GitHub
 ```
 
-Po úspěšném pushi se změny objeví ve vzdáleném repozitáři.
-
 ---
 
-## 14. Kompletní workflow
+## 17. Kompletní workflow
 
 ```text
-1. upravím soubor ve VS Code
+1. upravím soubor
 
-2. uložím ho
-Ctrl + S
+2. Ctrl + S
 
-3. zkontroluji změny
-git status
+3. git status
 
-4. přidám změnu do staging area
-git add soubor
+4. git add ...
 
-5. vytvořím commit
-git commit -m "Popis změny"
+5. git status
 
-6. odešlu commit na GitHub
-git push
+6. git commit -m "..."
+
+7. git push
 ```
 
 Zkráceně:
@@ -475,19 +516,22 @@ edit
 → save
 → status
 → add
+→ status
 → commit
 → push
 ```
 
+Druhé `git status` není povinné, ale je velmi užitečné před commitem.
+
 ---
 
-## 15. git pull
+## 18. `git pull`
 
 ```powershell
 git pull
 ```
 
-Stáhne nové změny z GitHubu do lokálního repozitáře.
+Stáhne změny ze vzdáleného repozitáře.
 
 Workflow:
 
@@ -497,419 +541,396 @@ GitHub
 → lokální repozitář
 ```
 
-Používá se hlavně tehdy, když se na vzdáleném repozitáři něco změnilo.
-
-Například:
+Používá se například pokud:
 
 ```text
-změna přes GitHub web
-změna od kolegy
-změna z jiného počítače
+změním soubor přes GitHub web
+kolega odešle změnu
+pracuji na jiném počítači
 ```
 
 ---
 
-## 16. GitHub vs. Git
+## 19. Remote repository a `origin`
 
-```text
-Git
-→ nástroj pro verzování
-
-GitHub
-→ online služba pro ukládání Git repozitářů
-```
-
-Git funguje i bez GitHubu.
-
-GitHub je pouze vzdálené místo, kam můžeš repozitář posílat.
-
----
-
-## 17. Lokální vs. vzdálený repozitář
-
-```text
-lokální repozitář
-→ na počítači
-
-remote repository
-→ například GitHub
-```
-
-V Gitu se často používá:
+Git běžně označuje vzdálený repozitář jako:
 
 ```text
 origin
 ```
 
-`origin` je běžný název vzdáleného repozitáře.
+Kontrola:
 
-Například:
-
-```text
-origin/main
+```powershell
+git remote -v
 ```
 
-znamená:
+Výstup může být:
 
 ```text
-větev main na vzdáleném repozitáři origin
+origin  https://github.com/username/git-vs-code-practice.git (fetch)
+origin  https://github.com/username/git-vs-code-practice.git (push)
+```
+
+### `fetch`
+
+```text
+odkud Git stahuje změny
+```
+
+### `push`
+
+```text
+kam Git posílá změny
 ```
 
 ---
 
-## 18. Branch
+## 20. Přejmenování GitHub repozitáře
+
+Pokud přejmenuji repozitář na GitHubu například:
+
+```text
+git-practice
+```
+
+na:
+
+```text
+git-vs-code-practice
+```
+
+lokální Git může stále používat starou adresu.
+
+Nejprve ověřím:
+
+```powershell
+git remote -v
+```
+
+Potom změním URL:
+
+```powershell
+git remote set-url origin NOVA_URL
+```
+
+Například:
+
+```powershell
+git remote set-url origin https://github.com/username/git-vs-code-practice.git
+```
+
+Znovu ověřím:
+
+```powershell
+git remote -v
+```
+
+---
+
+## 21. Přejmenování lokální složky
+
+Přejmenování GitHub repozitáře automaticky nepřejmenuje lokální složku.
+
+Například:
+
+```text
+git-practice
+```
+
+může být lokálně přejmenováno na:
+
+```text
+git-vs-code-practice
+```
+
+Potom je vhodné složku znovu otevřít přes:
+
+```text
+File
+→ Open Folder
+```
+
+a ověřit:
+
+```powershell
+git status
+```
+
+Git tím nezmizí.
+
+Metadata repozitáře jsou uložená ve skryté složce:
+
+```text
+.git
+```
+
+---
+
+## 22. Struktura složek v repozitáři
+
+Například:
+
+```text
+git-vs-code-practice/
+│
+├── git/
+│   └── git_cheatsheet.md
+│
+├── vs-code/
+│   └── vscode_cheatsheet.md
+│
+└── README.md
+```
+
+Git pracuje se soubory i v podsložkách.
+
+Samotné prázdné složky Git nesleduje.
+
+Například prázdná:
+
+```text
+vs-code/
+```
+
+se na GitHubu neobjeví, dokud v ní nebude sledovaný soubor.
+
+---
+
+## 23. Přesun souboru do jiné složky
+
+Například:
+
+```text
+git_cheatsheet.md
+```
+
+přesunu do:
+
+```text
+git/git_cheatsheet.md
+```
+
+Před stagingem může Git zobrazit:
+
+```text
+deleted: git_cheatsheet.md
+
+Untracked files:
+    git/
+```
+
+Po:
+
+```powershell
+git add .
+```
+
+může Git rozpoznat změnu jako:
+
+```text
+renamed:
+git_cheatsheet.md -> git/git_cheatsheet.md
+```
+
+Git neukládá příkaz „přesuň soubor“.
+
+Porovnává obsah a historii změn a může následně přesun rozpoznat.
+
+---
+
+## 24. Mazání souboru přes Git
+
+```powershell
+git rm practice.txt
+```
+
+Tím Git:
+
+```text
+1. smaže soubor
+2. připraví jeho smazání do staging area
+```
+
+Potom:
+
+```powershell
+git status
+git commit -m "Remove practice file"
+git push
+```
+
+Workflow:
+
+```text
+git rm
+→ staging area
+→ commit
+→ push
+```
+
+---
+
+## 25. Ruční smazání ve VS Code
+
+Soubor lze odstranit také:
+
+```text
+pravé tlačítko
+→ Delete
+```
+
+Git smazání pozná.
+
+Potom například:
+
+```powershell
+git add -A
+git commit -m "Remove practice file"
+git push
+```
+
+---
+
+## 26. `git rm` vs. Delete
+
+### Git příkaz
+
+```powershell
+git rm practice.txt
+```
+
+udělá:
+
+```text
+Delete
++
+staging
+```
+
+### Ruční Delete
+
+```text
+Delete ve VS Code
+```
+
+pak je potřeba smazání ještě připravit:
+
+```powershell
+git add -A
+```
+
+---
+
+## 27. Branch
 
 ```text
 branch
 → větev projektu
 ```
 
-Aktuálně typicky pracujeme na:
-
-```text
-main
-```
-
-Kontrola:
-
-```powershell
-git status
-```
-
-nebo:
+Aktuální větev:
 
 ```powershell
 git branch
 ```
 
-Výstup například:
+Například:
 
 ```text
 * main
 ```
 
-Hvězdička označuje aktuální větev.
-
----
-
-## 19. Změna existujícího souboru
-
-Například upravíš:
+Hvězdička znamená:
 
 ```text
-README.md
+aktuální větev
 ```
 
-Ve VS Code se může objevit:
-
-```text
-M
-```
-
-Potom:
+Stejnou informaci ukazuje:
 
 ```powershell
 git status
 ```
 
-může ukázat:
-
-```text
-modified: README.md
-```
-
-Workflow:
-
-```powershell
-git add README.md
-
-git commit -m "Update README"
-
-git push
-```
-
 ---
 
-## 20. Nový soubor vs. změněný soubor
-
-Nový soubor:
+## 28. `main` a `origin/main`
 
 ```text
-U
-→ Untracked
+main
+→ moje lokální větev
+
+origin/main
+→ vzdálená větev main na GitHubu
 ```
 
-Po:
-
-```powershell
-git add soubor
-```
-
-může být:
+Pokud Git hlásí:
 
 ```text
-A
-→ Added
-```
-
-Existující změněný soubor:
-
-```text
-M
-→ Modified
-```
-
-Po:
-
-```powershell
-git add soubor
-```
-
-se připraví do staging area.
-
----
-
-## 21. Mazání souboru přes Git
-
-Pokud chceš soubor odstranit přímo přes Git:
-
-```powershell
-git rm practice.txt
-```
-
-Tím Git udělá dvě věci najednou:
-
-```text
-1. smaže soubor z pracovní složky
-2. připraví smazání do staging area
-```
-
-Potom zkontroluj:
-
-```powershell
-git status
-```
-
-Můžeš vidět například:
-
-```text
-Changes to be committed:
-    deleted: practice.txt
-```
-
-Následně:
-
-```powershell
-git commit -m "Remove practice file"
-```
-
-a:
-
-```powershell
-git push
-```
-
-Tím se smazání projeví i na GitHubu.
-
-Workflow:
-
-```text
-git rm practice.txt
-→ git status
-→ git commit -m "Remove practice file"
-→ git push
-```
-
----
-
-## 22. Smazání souboru ručně ve VS Code
-
-Soubor můžeš odstranit i běžně ve VS Code.
-
-Například:
-
-```text
-pravé tlačítko na soubor
-→ Delete
-```
-
-Git si všimne, že sledovaný soubor zmizel.
-
-Potom:
-
-```powershell
-git status
-```
-
-může ukázat:
-
-```text
-deleted: practice.txt
-```
-
-Smazání je ale ještě potřeba přidat do staging area:
-
-```powershell
-git add practice.txt
-```
-
-nebo obecně:
-
-```powershell
-git add -A
-```
-
-Potom:
-
-```powershell
-git commit -m "Remove practice file"
-git push
-```
-
----
-
-## 23. `git rm` vs. ruční smazání
-
-### `git rm`
-
-```powershell
-git rm practice.txt
-```
-
-Výhoda:
-
-```text
-smaže soubor
-+
-rovnou připraví smazání do staging area
-```
-
-### Ruční smazání
-
-```text
-Delete ve VS Code
-```
-
-pak ještě:
-
-```powershell
-git add practice.txt
-```
-
-nebo:
-
-```powershell
-git add -A
-```
-
-Prakticky je `git rm` čistší, pokud už předem víš, že chceš sledovaný soubor odstranit.
-
----
-
-## 24. git add více souborů
-
-Konkrétní soubor:
-
-```powershell
-git add README.md
-```
-
-Více konkrétních souborů:
-
-```powershell
-git add README.md git_cheatsheet.md
-```
-
-Všechny aktuální změny:
-
-```powershell
-git add .
-```
-
-Tečka:
-
-```text
-.
-```
-
-znamená:
-
-```text
-aktuální složka a její změny
-```
-
-### `git add -A`
-
-```powershell
-git add -A
-```
-
-přidá všechny změny, včetně:
-
-```text
-nových souborů
-změněných souborů
-smazaných souborů
-```
-
-Na začátku je ale často lepší používat konkrétní názvy souborů, protože přesně víš, co dáváš do commitu.
-
----
-
-## 25. Kontrola před commitem
-
-Dobrá praxe:
-
-```powershell
-git status
-```
-
-před:
-
-```powershell
-git commit
-```
-
-Díky tomu vidíš:
-
-```text
-co je změněné
-co je staged
-co není staged
-co se skutečně commitne
-```
-
----
-
-## 26. Kontrola po commitu
-
-Po:
-
-```powershell
-git commit -m "Update README"
-```
-
-spusť:
-
-```powershell
-git status
-```
-
-Pokud vidíš:
-
-```text
-nothing to commit, working tree clean
+Your branch is up to date with 'origin/main'
 ```
 
 znamená to:
 
 ```text
-všechny aktuální změny jsou uložené v commitu
+lokální main
+=
+GitHub main
 ```
 
 ---
 
-## 27. Kontrola po pushi
+## 29. Kontrola před commitem
+
+Doporučený postup:
+
+```powershell
+git status
+```
+
+Díky tomu vidím:
+
+```text
+co je změněné
+co není staged
+co už je staged
+co se skutečně commitne
+```
+
+Potom teprve:
+
+```powershell
+git commit -m "..."
+```
+
+---
+
+## 30. Kontrola po commitu
+
+```powershell
+git status
+```
+
+Pokud vidím:
+
+```text
+nothing to commit, working tree clean
+```
+
+všechny aktuální změny jsou uložené v lokálním commitu.
+
+Pokud ale ještě nebyl:
+
+```powershell
+git push
+```
+
+nemusí být commit na GitHubu.
+
+---
+
+## 31. Kontrola po pushi
 
 Po:
 
@@ -917,131 +938,75 @@ Po:
 git push
 ```
 
-můžeš:
+mohu:
 
 ```text
 otevřít GitHub
-→ obnovit stránku repozitáře
-→ ověřit nový soubor, změnu nebo smazání
+→ obnovit stránku
+→ zkontrolovat změny
 ```
 
 ---
 
-## 28. VS Code Source Control
-
-Ve VS Code je vlevo ikona:
-
-```text
-Source Control
-```
-
-Git stav můžeš sledovat i graficky.
-
-VS Code umí zobrazit například:
-
-```text
-Changes
-Staged Changes
-Commit
-Sync Changes
-```
-
-Pro výuku je ale dobré nejdřív používat terminál, protože přesně vidíš, co Git skutečně dělá.
-
----
-
-## 29. Uložení souboru před Git příkazy
-
-Před:
+## 32. Nejčastější workflow — jeden soubor
 
 ```powershell
 git status
-```
 
-je dobré soubor uložit:
-
-```text
-Ctrl + S
-```
-
-Pokud máš ve VS Code neuložené změny, Git nemusí vidět nejnovější obsah souboru.
-
-Ve VS Code může neuložený soubor indikovat tečka na záložce.
-
----
-
-## 30. Otevřená správná složka
-
-V Exploreru VS Code by měla být nahoře vidět složka repozitáře, například:
-
-```text
-git-practice
-```
-
-Terminál by měl být ve stejné složce:
-
-```powershell
-PS C:\Users\frant\Documents\data-analytics-workspace\git-practice>
-```
-
-To pomáhá předejít situaci, kdy Git příkazy spouštíš ve špatném adresáři.
-
----
-
-## 31. Rychlý Git tahák
-
-```powershell
-# verze Gitu
-git --version
-
-# stav repozitáře
-git status
-
-# přidání jednoho souboru
 git add README.md
 
-# přidání všech změn v aktuální složce
-git add .
+git status
 
-# přidání všech změn včetně smazání
-git add -A
+git commit -m "Update README"
 
-# commit
-git commit -m "Popis změny"
-
-# odeslání na GitHub
 git push
-
-# stažení změn
-git pull
-
-# klonování repozitáře
-git clone URL
-
-# zobrazení větví
-git branch
-
-# smazání sledovaného souboru
-git rm practice.txt
 ```
 
 ---
 
-## 32. Nejčastější workflow
-
-### Nový nebo upravený soubor
+## 33. Nejčastější workflow — soubor v podsložce
 
 ```powershell
 git status
 
-git add git_cheatsheet.md
+git add vs-code/vscode_cheatsheet.md
 
-git commit -m "Add Git cheatsheet"
+git status
+
+git commit -m "Add VS Code cheatsheet"
 
 git push
 ```
 
-### Smazání souboru
+---
+
+## 34. Nejčastější workflow — více změn a složek
+
+Například:
+
+```text
+přesunutý Git cheatsheet
+nový VS Code cheatsheet
+nové složky
+```
+
+Použij:
+
+```powershell
+git status
+
+git add .
+
+git status
+
+git commit -m "Add VS Code cheatsheet and organize notes"
+
+git push
+```
+
+---
+
+## 35. Nejčastější workflow — smazání
 
 ```powershell
 git rm practice.txt
@@ -1053,27 +1018,57 @@ git commit -m "Remove practice file"
 git push
 ```
 
-Význam:
+---
 
-```text
+## 36. Rychlý Git tahák
+
+```powershell
+# kontrola instalace
+git --version
+
+# stav repozitáře
 git status
-→ co se změnilo?
 
-git add / git rm
-→ co chci zahrnout do commitu?
+# klonování
+git clone URL
 
-git commit
-→ vytvoř bod historie
+# jeden soubor
+git add README.md
 
+# soubor v podsložce
+git add vs-code/vscode_cheatsheet.md
+
+# všechny změny v aktuální složce
+git add .
+
+# všechny změny včetně smazání
+git add -A
+
+# commit
+git commit -m "Popis změny"
+
+# odeslání
 git push
-→ odešli ho na GitHub
+
+# stažení změn
+git pull
+
+# větve
+git branch
+
+# vzdálený repozitář
+git remote -v
+
+# změna URL origin
+git remote set-url origin NOVA_URL
+
+# smazání sledovaného souboru
+git rm soubor
 ```
 
 ---
 
-## 33. Mentální model
-
-Nejdůležitější je držet si tento obraz:
+## 37. Mentální model
 
 ```text
 VS Code
@@ -1093,7 +1088,7 @@ git push
 GitHub
 ```
 
-A opačným směrem:
+Opačný směr:
 
 ```text
 GitHub
@@ -1107,51 +1102,79 @@ Working directory
 
 ---
 
-## 34. Co si zatím stačí pamatovat
+## 38. Co si zatím stačí pamatovat
 
 ```text
 git clone
 → stáhni repozitář
 
 git status
-→ ukaž stav
+→ zjisti stav
 
 git add
-→ připrav změnu
-
-git rm
-→ smaž sledovaný soubor a připrav smazání
+→ připrav změny
 
 git commit
-→ ulož změnu do historie
+→ ulož bod historie lokálně
 
 git push
-→ pošli změnu na GitHub
+→ odešli commity na GitHub
 
 git pull
-→ stáhni změnu z GitHubu
+→ stáhni změny z GitHubu
+
+git rm
+→ smaž sledovaný soubor
+
+git remote -v
+→ zobraz vzdálený repozitář
+
+git remote set-url
+→ změň adresu vzdáleného repozitáře
 ```
 
 ---
 
-## 35. Další témata pro později
+## 39. Praktická zásada
+
+Před většinou důležitých kroků použij:
+
+```powershell
+git status
+```
+
+Když si nejsi jistý:
+
+```text
+nejdřív status
+→ potom rozhodnutí
+```
+
+---
+
+## 40. Další témata pro později
 
 ```text
 .gitignore
+
 git log
 git diff
+
 git restore
 git reset
 
 branches
 git switch
-git merge
 
+git merge
 merge conflicts
 
 rebase
 
 pull requests
 
-práce více lidí na jednom projektu
+spolupráce více lidí
+
+GitHub Issues
+GitHub Actions
 ```
