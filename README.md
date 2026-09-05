@@ -9,7 +9,7 @@ Repozitář obsahuje vlastní cheatsheety a poznámky k běžným operacím pou�
 ## 📂 Struktura repozitáře
 
 ```text
-git-vs-code-practice/
+git-and-code-practice/
 │
 ├── git/
 │   └── git_cheatsheet.md
