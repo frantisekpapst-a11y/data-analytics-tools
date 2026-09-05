@@ -411,7 +411,92 @@ Working directory
 
 ---
 
-## 14. `git commit`
+## 14. `git diff`
+
+```powershell
+git diff
+```
+
+Ukáže aktuální změny, které ještě nejsou ve staging area.
+
+Typické použití:
+
+```text
+upravím soubor
+→ Ctrl + S
+→ git diff
+```
+
+Git může zobrazit například:
+
+```diff
+- původní text
++ nový text
+```
+
+Význam:
+
+```text
+-
+→ odstraněný řádek
+
++
+→ přidaný řádek
+```
+
+`git diff` je praktický před `git add`, protože ukáže:
+
+```text
+co jsem změnil?
+```
+
+---
+
+## 15. `git diff --staged`
+
+Po:
+
+```powershell
+git add README.md
+```
+
+už obyčejný:
+
+```powershell
+git diff
+```
+
+nemusí danou změnu zobrazit, protože je ve staging area.
+
+Pro kontrolu staged změn použij:
+
+```powershell
+git diff --staged
+```
+
+Význam:
+
+```text
+git diff
+→ změny před git add
+
+git diff --staged
+→ změny po git add, ale před commitem
+```
+
+Praktický workflow:
+
+```text
+upravím soubor
+→ git diff
+→ git add
+→ git diff --staged
+→ git commit
+```
+
+---
+
+## 16. `git commit`
 
 ```powershell
 git commit -m "Popis změny"
@@ -457,7 +542,7 @@ Organize Git and VS Code notes
 
 ---
 
-## 15. Co se stane po commitu
+## 17. Co se stane po commitu
 
 ```text
 git add
@@ -473,7 +558,117 @@ Je uložená pouze lokálně.
 
 ---
 
-## 16. `git push`
+## 18. `git log`
+
+```powershell
+git log
+```
+
+Zobrazí historii commitů.
+
+U každého commitu může obsahovat:
+
+```text
+commit
+→ unikátní ID commitu
+
+Author
+→ autor commitu
+
+Date
+→ datum a čas
+
+message
+→ popis změny
+```
+
+`git log` je podrobnější pohled na historii projektu.
+
+---
+
+## 19. `git log --oneline`
+
+Praktičtější zkrácená varianta:
+
+```powershell
+git log --oneline
+```
+
+Příklad:
+
+```text
+d50b760 Update README for Git & VS Code structure
+ac6ef7f Update Git cheatsheet with repository organization notes
+a5a9148 Add VS Code cheatsheet and organize notes
+```
+
+Každý řádek obsahuje:
+
+```text
+zkrácené ID commitu
++
+commit message
+```
+
+Pro rychlou orientaci v historii je:
+
+```powershell
+git log --oneline
+```
+
+často praktičtější než celý:
+
+```powershell
+git log
+```
+
+Pozor na překlep:
+
+```powershell
+git log --online
+```
+
+je špatně.
+
+Správně:
+
+```powershell
+git log --oneline
+```
+
+---
+
+## 20. Historie vs. aktuální změny
+
+Důležitý rozdíl:
+
+```text
+git log --oneline
+→ co už bylo commitnuto
+
+git diff
+→ co je aktuálně změněné a není staged
+
+git diff --staged
+→ co je staged a čeká na commit
+```
+
+Mentální model:
+
+```text
+minulost projektu
+→ git log
+
+aktuální rozpracované změny
+→ git diff
+
+změny připravené pro commit
+→ git diff --staged
+```
+
+---
+
+## 21. `git push`
 
 ```powershell
 git push
@@ -491,7 +686,7 @@ Local repository
 
 ---
 
-## 17. Kompletní workflow
+## 22. Kompletní workflow
 
 ```text
 1. upravím soubor
@@ -500,13 +695,17 @@ Local repository
 
 3. git status
 
-4. git add ...
+4. git diff
 
-5. git status
+5. git add ...
 
-6. git commit -m "..."
+6. git status
 
-7. git push
+7. git diff --staged
+
+8. git commit -m "..."
+
+9. git push
 ```
 
 Zkráceně:
@@ -515,17 +714,19 @@ Zkráceně:
 edit
 → save
 → status
+→ diff
 → add
 → status
+→ diff --staged
 → commit
 → push
 ```
 
-Druhé `git status` není povinné, ale je velmi užitečné před commitem.
+`git diff` a `git diff --staged` nejsou povinné při každé malé změně, ale jsou velmi užitečné pro kontrolu.
 
 ---
 
-## 18. `git pull`
+## 23. `git pull`
 
 ```powershell
 git pull
@@ -551,7 +752,7 @@ pracuji na jiném počítači
 
 ---
 
-## 19. Remote repository a `origin`
+## 24. Remote repository a `origin`
 
 Git běžně označuje vzdálený repozitář jako:
 
@@ -586,7 +787,7 @@ kam Git posílá změny
 
 ---
 
-## 20. Přejmenování GitHub repozitáře
+## 25. Přejmenování GitHub repozitáře
 
 Pokud přejmenuji repozitář na GitHubu například:
 
@@ -628,7 +829,7 @@ git remote -v
 
 ---
 
-## 21. Přejmenování lokální složky
+## 26. Přejmenování lokální složky
 
 Přejmenování GitHub repozitáře automaticky nepřejmenuje lokální složku.
 
@@ -667,7 +868,7 @@ Metadata repozitáře jsou uložená ve skryté složce:
 
 ---
 
-## 22. Struktura složek v repozitáři
+## 27. Struktura složek v repozitáři
 
 Například:
 
@@ -697,7 +898,7 @@ se na GitHubu neobjeví, dokud v ní nebude sledovaný soubor.
 
 ---
 
-## 23. Přesun souboru do jiné složky
+## 28. Přesun souboru do jiné složky
 
 Například:
 
@@ -739,7 +940,7 @@ Porovnává obsah a historii změn a může následně přesun rozpoznat.
 
 ---
 
-## 24. Mazání souboru přes Git
+## 29. Mazání souboru přes Git
 
 ```powershell
 git rm practice.txt
@@ -771,7 +972,7 @@ git rm
 
 ---
 
-## 25. Ruční smazání ve VS Code
+## 30. Ruční smazání ve VS Code
 
 Soubor lze odstranit také:
 
@@ -792,7 +993,7 @@ git push
 
 ---
 
-## 26. `git rm` vs. Delete
+## 31. `git rm` vs. Delete
 
 ### Git příkaz
 
@@ -822,7 +1023,7 @@ git add -A
 
 ---
 
-## 27. Branch
+## 32. Branch
 
 ```text
 branch
@@ -855,7 +1056,7 @@ git status
 
 ---
 
-## 28. `main` a `origin/main`
+## 33. `main` a `origin/main`
 
 ```text
 main
@@ -881,24 +1082,51 @@ GitHub main
 
 ---
 
-## 29. Kontrola před commitem
+## 34. Kontrola před `git add`
 
-Doporučený postup:
+Po změně souboru:
 
 ```powershell
 git status
+git diff
+```
+
+Tím zjistím:
+
+```text
+které soubory jsou změněné
++
+co přesně jsem v nich změnil
+```
+
+Potom můžu rozhodnout, co dát do staging area.
+
+---
+
+## 35. Kontrola před commitem
+
+Po:
+
+```powershell
+git add .
+```
+
+je dobré použít:
+
+```powershell
+git status
+git diff --staged
 ```
 
 Díky tomu vidím:
 
 ```text
-co je změněné
-co není staged
-co už je staged
-co se skutečně commitne
+co je staged
++
+co se skutečně uloží do dalšího commitu
 ```
 
-Potom teprve:
+Potom:
 
 ```powershell
 git commit -m "..."
@@ -906,7 +1134,7 @@ git commit -m "..."
 
 ---
 
-## 30. Kontrola po commitu
+## 36. Kontrola po commitu
 
 ```powershell
 git status
@@ -920,17 +1148,23 @@ nothing to commit, working tree clean
 
 všechny aktuální změny jsou uložené v lokálním commitu.
 
+Historii můžu ověřit:
+
+```powershell
+git log --oneline
+```
+
 Pokud ale ještě nebyl:
 
 ```powershell
 git push
 ```
 
-nemusí být commit na GitHubu.
+nemusí být poslední commit na GitHubu.
 
 ---
 
-## 31. Kontrola po pushi
+## 37. Kontrola po pushi
 
 Po:
 
@@ -948,14 +1182,16 @@ otevřít GitHub
 
 ---
 
-## 32. Nejčastější workflow — jeden soubor
+## 38. Nejčastější workflow — jeden soubor
 
 ```powershell
 git status
 
+git diff
+
 git add README.md
 
-git status
+git diff --staged
 
 git commit -m "Update README"
 
@@ -964,14 +1200,16 @@ git push
 
 ---
 
-## 33. Nejčastější workflow — soubor v podsložce
+## 39. Nejčastější workflow — soubor v podsložce
 
 ```powershell
 git status
 
+git diff
+
 git add vs-code/vscode_cheatsheet.md
 
-git status
+git diff --staged
 
 git commit -m "Add VS Code cheatsheet"
 
@@ -980,7 +1218,7 @@ git push
 
 ---
 
-## 34. Nejčastější workflow — více změn a složek
+## 40. Nejčastější workflow — více změn a složek
 
 Například:
 
@@ -995,9 +1233,13 @@ Použij:
 ```powershell
 git status
 
+git diff
+
 git add .
 
 git status
+
+git diff --staged
 
 git commit -m "Add VS Code cheatsheet and organize notes"
 
@@ -1006,12 +1248,14 @@ git push
 
 ---
 
-## 35. Nejčastější workflow — smazání
+## 41. Nejčastější workflow — smazání
 
 ```powershell
 git rm practice.txt
 
 git status
+
+git diff --staged
 
 git commit -m "Remove practice file"
 
@@ -1020,7 +1264,33 @@ git push
 
 ---
 
-## 36. Rychlý Git tahák
+## 42. Historie projektu
+
+Rychlá historie:
+
+```powershell
+git log --oneline
+```
+
+Podrobná historie:
+
+```powershell
+git log
+```
+
+Prakticky:
+
+```text
+git log
+→ detailní historie
+
+git log --oneline
+→ rychlý přehled historie
+```
+
+---
+
+## 43. Rychlý Git tahák
 
 ```powershell
 # kontrola instalace
@@ -1029,8 +1299,8 @@ git --version
 # stav repozitáře
 git status
 
-# klonování
-git clone URL
+# změny před stagingem
+git diff
 
 # jeden soubor
 git add README.md
@@ -1044,14 +1314,26 @@ git add .
 # všechny změny včetně smazání
 git add -A
 
+# staged změny
+git diff --staged
+
 # commit
 git commit -m "Popis změny"
+
+# rychlá historie commitů
+git log --oneline
+
+# podrobná historie
+git log
 
 # odeslání
 git push
 
 # stažení změn
 git pull
+
+# klonování
+git clone URL
 
 # větve
 git branch
@@ -1068,20 +1350,26 @@ git rm soubor
 
 ---
 
-## 37. Mentální model
+## 44. Mentální model
 
 ```text
 VS Code
 ↓
 Working directory
 ↓
+git diff
+↓
 git add / git rm
 ↓
 Staging area
 ↓
+git diff --staged
+↓
 git commit
 ↓
 Local repository
+↓
+git log --oneline
 ↓
 git push
 ↓
@@ -1102,7 +1390,7 @@ Working directory
 
 ---
 
-## 38. Co si zatím stačí pamatovat
+## 45. Co si zatím stačí pamatovat
 
 ```text
 git clone
@@ -1111,11 +1399,20 @@ git clone
 git status
 → zjisti stav
 
+git diff
+→ ukaž aktuální nestaged změny
+
 git add
 → připrav změny
 
+git diff --staged
+→ ukaž změny připravené pro commit
+
 git commit
 → ulož bod historie lokálně
+
+git log --oneline
+→ ukaž rychlý přehled historie
 
 git push
 → odešli commity na GitHub
@@ -1135,30 +1432,54 @@ git remote set-url
 
 ---
 
-## 39. Praktická zásada
+## 46. Praktická zásada
 
-Před většinou důležitých kroků použij:
+Když si nejsi jistý:
 
 ```powershell
 git status
 ```
 
-Když si nejsi jistý:
+Pokud chceš vědět, co jsi změnil:
+
+```powershell
+git diff
+```
+
+Pokud chceš vědět, co se chystá do commitu:
+
+```powershell
+git diff --staged
+```
+
+Pokud chceš vědět, co už bylo commitnuto:
+
+```powershell
+git log --oneline
+```
+
+Jednoduchý orientační model:
 
 ```text
-nejdřív status
-→ potom rozhodnutí
+Co se děje?
+→ git status
+
+Co jsem změnil?
+→ git diff
+
+Co budu commitovat?
+→ git diff --staged
+
+Co už jsem commitoval?
+→ git log --oneline
 ```
 
 ---
 
-## 40. Další témata pro později
+## 47. Další témata pro později
 
 ```text
 .gitignore
-
-git log
-git diff
 
 git restore
 git reset
