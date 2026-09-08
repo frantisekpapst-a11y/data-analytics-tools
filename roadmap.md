@@ -12,31 +12,6 @@ Lekce	Téma	Hlavní výstup
 11	Modern Data Stack	mapa kategorií a rolí
 12	Kombinace nástrojů	závěrečný architektonický scénář
 
-data-analytics-tools/
-├── README.md
-├── notebook-workflow/
-│   └── sales-analysis-notebook.ipynb
-├── large-data-strategy/
-│   └── README.md
-├── pyspark-sales-analysis/
-│   ├── README.md
-│   └── pyspark_sales_analysis.ipynb
-├── data-architecture/
-│   ├── warehouse-lake-lakehouse.md
-│   └── bronze-silver-gold.md
-├── cloud-fundamentals/
-│   └── cloud-services-comparison.md
-├── databricks-lakehouse/
-│   ├── README.md
-│   └── lakehouse_workflow.ipynb
-├── modern-data-stack/
-│   └── business-scenario.md
-├── knowledge-base/
-│   ├── data-analytics-tools-cheatsheet.md
-│   ├── pandas-sql-pyspark-comparison.md
-│   └── terminology.md
-└── mini-tests/
-
 
 Doporučená roadmapa Data Analytics Tools
 Lekce 1 — Mapa moderního datového prostředí
