@@ -1,4 +1,3 @@
-Lekce	Téma	Hlavní výstup
 1	Mapa datového prostředí	přehled datového toku a rolí
 2	Jupyter workflow	profesionální analytický notebook
 3	Větší datasety	strategie efektivního zpracování
@@ -11,73 +10,6 @@ Lekce	Téma	Hlavní výstup
 10	Orchestrace	návrh pořadí datových kroků
 11	Modern Data Stack	mapa kategorií a rolí
 12	Kombinace nástrojů	závěrečný architektonický scénář
-
-
-Doporučená roadmapa Data Analytics Tools
-Lekce 1 — Mapa moderního datového prostředí
-
-Nejprve si vytvoříme celkovou orientaci:
-
-Datové zdroje
-→ ingestion
-→ storage
-→ transformation
-→ analytical layer
-→ reporting
-→ business decision
-
-Probereme:
-
-kde v procesu vystupuje SQL;
-kde se používá Python;
-kde zapadá Power Query;
-proč vznikají warehouse, lake a lakehouse;
-kde se používá Spark;
-co přináší Databricks;
-jakou roli má cloud;
-kde začíná orchestrace;
-co z toho obvykle ovládá analytik a co data engineer.
-Praktický úkol
-
-Dostaneš jednoduchý firemní scénář:
-
-objednávky v SQL databázi;
-marketingová data z API;
-rozpočty v Excelu;
-reporting v Power BI.
-
-Úkolem bude jednotlivé kroky přiřadit k částem datového procesu. Zatím bez výběru konkrétní komplexní architektury.
-
-Proč začít právě tímto
-
-Pojmy jako Spark, Databricks, lakehouse a orchestrace potom nebudou působit jako izolované technologie. Každý nový nástroj budeme umisťovat do této mapy.
-
-Lekce 2 — Jupyter a profesionální notebook workflow
-
-Jupyter bude krátká, praktická část. Python už znáš, takže nebudeme znovu probírat jeho základy.
-
-Témata
-rozdíl mezi .ipynb notebookem a .py skriptem;
-Markdown a Code buňky;
-kernel a stav uložený v paměti;
-restart a spuštění všech buněk;
-správné pořadí buněk;
-relativní cesty k souborům;
-oddělení načtení, validace, transformace, analýzy a interpretace;
-výhody a rizika notebooků;
-kdy použít notebook a kdy skript.
-Profesionální struktura notebooku
-Business Context
-→ Data Sources
-→ Data Validation
-→ Data Preparation
-→ Analysis
-→ Findings
-→ Limitations
-→ Recommendations
-Praktický mini scénář
-
-Existující menší dataset zpracujeme v přehledném notebooku. Nebude cílem ukázat co nejvíce Python syntaxe, ale vytvořit reprodukovatelný analytický dokument.
 
 Lekce 3 — Větší datasety a efektivní práce s daty
 
