@@ -7,3 +7,5 @@ __pycache__/
 
 # Jupyter temporary files
 .ipynb_checkpoints/
+
+datasets/generated/
