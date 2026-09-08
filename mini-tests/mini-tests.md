@@ -1,6 +1,6 @@
 # Data Analytics Tools — Mini Tests
 
-## Modern Data Environment
+## Minitesty — Lekce 1: Data Analytics Environment Map
 
 ### 1. Vrstvy datového prostředí
 
@@ -328,3 +328,294 @@ Jeho hlavní odpovědností je:
 - interpretace;
 - reporting;
 - formulace doporučení.
+
+---
+
+# Minitesty — Lekce 2: Jupyter Notebook Workflow
+
+---
+
+### 11. Jupyter Notebook a Python skript
+
+Jaký je hlavní rozdíl mezi souborem `.ipynb` a běžným Python skriptem `.py`?
+
+**A.** `.ipynb` kombinuje kód, Markdown a výstupy.
+
+**B.** `.py` nelze spouštět ve VS Code.
+
+**C.** `.py` automaticky ukládá všechny výstupy.
+
+**D.** `.ipynb` neumožňuje spouštět Python.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Jupyter Notebook může v jednom souboru kombinovat:
+
+- spustitelný Python kód;
+- Markdown dokumentaci;
+- tabulky, grafy a další výstupy buněk.
+
+Python skript `.py` obsahuje především zdrojový kód a výsledky jednotlivých příkazů automaticky neukládá jako součást souboru.
+
+---
+
+### 12. Markdown buňka
+
+Který typ buňky je vhodný pro nadpis, business kontext a interpretaci výsledků?
+
+**A.** Code
+
+**B.** Raw
+
+**C.** Markdown
+
+**D.** Output
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Markdown buňka slouží k dokumentaci notebooku. Může obsahovat například:
+
+- nadpisy;
+- odstavce;
+- seznamy;
+- popis analytického postupu;
+- interpretaci výsledků;
+- omezení a doporučení.
+
+Code buňka je naopak určená především ke spouštění programového kódu.
+
+---
+
+### 13. Paměť kernelu
+
+Kde jsou během práce uložené vytvořené proměnné a načtené DataFrame?
+
+**A.** V paměti kernelu
+
+**B.** Automaticky v CSV
+
+**C.** Pouze v Markdown buňkách
+
+**D.** Automaticky v Git repozitáři
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Kernel je běžící výpočetní prostředí notebooku. Ve své paměti uchovává například:
+
+- vytvořené proměnné;
+- importované knihovny;
+- načtené DataFrame;
+- výsledky výpočtů potřebné pro další buňky.
+
+Proměnné nejsou automaticky ukládány do CSV ani do Git repozitáře.
+
+---
+
+### 14. Restart kernelu
+
+Co se stane po restartování kernelu?
+
+**A.** Smaže se celý notebook.
+
+**B.** Smažou se zdrojové soubory.
+
+**C.** Proměnné zůstanou dostupné.
+
+**D.** Vymaže se aktuální stav paměti kernelu.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+Restart kernelu vymaže aktuální stav paměti, tedy například proměnné, DataFrame a provedené importy. Buňky notebooku ani zdrojové soubory na disku se nesmažou.
+
+Po restartu je nutné potřebný stav znovu vytvořit spuštěním buněk.
+
+---
+
+### 15. Reprodukovatelnost notebooku
+
+Jak nejlépe ověřit, že je notebook reprodukovatelný?
+
+**A.** Spustit pouze poslední buňku.
+
+**B.** Restartovat kernel a spustit všechny buňky shora dolů.
+
+**C.** Notebook pouze uložit.
+
+**D.** Zkontrolovat poslední zobrazený výstup.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Nejvhodnější kontrola je:
+
+```text
+Restart Kernel
+→ Run All
+→ kontrola všech výstupů a chyb
+```
+
+Tím se odstraní skrytý stav paměti a ověří se, že notebook funguje ve správném pořadí od první do poslední buňky.
+
+---
+
+### 16. Skrytý stav a pořadí buněk
+
+Buňka používá proměnnou `df`, ale buňka s načtením dat je umístěna až pod ní. Proč může notebook přesto dočasně fungovat?
+
+**A.** Pandas automaticky spustí následující buňku.
+
+**B.** Markdown vytvoří chybějící DataFrame.
+
+**C.** `df` zůstalo v paměti kernelu z dřívějšího spuštění.
+
+**D.** Jupyter vždy ignoruje pořadí spuštění kódu.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Kernel může obsahovat proměnnou vytvořenou při dřívějším spuštění buněk v jiném pořadí. Notebook potom zdánlivě funguje, ale po restartu kernelu selže, protože `df` nebylo před použitím vytvořeno.
+
+Tomuto problému se říká skrytý stav notebooku.
+
+---
+
+### 17. Atribut `shape`
+
+Který zápis správně zjistí počet řádků a sloupců DataFrame `df`?
+
+**A.** `df.shape`
+
+**B.** `df.shape()`
+
+**C.** `pd.shape(df)`
+
+**D.** `df.info.shape`
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+`shape` je atribut DataFrame, a proto se zapisuje bez kulatých závorek:
+
+```python
+df.shape
+```
+
+Vrací tuple ve tvaru:
+
+```text
+(počet řádků, počet sloupců)
+```
+
+Jednotlivé hodnoty lze získat pomocí jejich pozice:
+
+```python
+df.shape[0]  # počet řádků
+df.shape[1]  # počet sloupců
+```
+
+---
+
+### 18. Více výstupů v jedné buňce
+
+Jak v jedné Code buňce spolehlivě zobrazit `df.shape` i tabulku `df.head()`?
+
+**A.** Napsat oba výrazy pod sebe bez dalších funkcí.
+
+**B.** Převést buňku na Markdown.
+
+**C.** Za oba výrazy přidat středník.
+
+**D.** Použít `print()` pro `shape` a `display()` pro tabulku.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+Jupyter automaticky zobrazí zpravidla pouze poslední samostatný výraz v Code buňce. Více výstupů proto zobrazíme explicitně:
+
+```python
+print("Shape:", df.shape)
+display(df.head())
+```
+
+`print()` je vhodný pro textové a jednoduché výstupy. `display()` poskytuje přehledné tabulkové zobrazení DataFrame.
+
+---
+
+### 19. Relativní cesta
+
+Jaká je hlavní výhoda relativní cesty k datasetu v portfolio projektu?
+
+**A.** Datový soubor se automaticky zmenší.
+
+**B.** Projekt je přenositelnější mezi různými počítači.
+
+**C.** DataFrame vždy zabere méně paměti.
+
+**D.** Git automaticky opraví obsah datasetu.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Relativní cesta vychází ze struktury projektu a není pevně svázána s konkrétní uživatelskou složkou nebo počítačem.
+
+Například:
+
+```python
+DATA_PATH = (
+    PROJECT_ROOT
+    / "datasets"
+    / "raw"
+    / "sales.csv"
+)
+```
+
+Takový projekt lze snáze přenést, sdílet nebo naklonovat z GitHubu.
+
+---
+
+### 20. Profesionální struktura notebooku
+
+Které pořadí nejlépe odpovídá profesionální struktuře analytického notebooku?
+
+**A.** Analysis → Business Context → Data Sources → Findings
+
+**B.** Data Preparation → Recommendations → Data Validation → Analysis
+
+**C.** Business Context → Data Sources → Data Validation → Data Preparation → Analysis → Findings
+
+**D.** Findings → Analysis → Data Sources → Business Context
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Profesionální analytický notebook má logickou strukturu od zadání až po závěry:
+
+```text
+Business Context
+→ Data Sources
+→ Data Validation
+→ Data Preparation
+→ Analysis
+→ Findings
+→ Limitations
+→ Recommendations
+```
+
+Taková struktura pomáhá čtenáři pochopit účel analýzy, použitá data, provedený postup i výslednou business interpretaci.
+
+---
+
