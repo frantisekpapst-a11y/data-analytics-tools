@@ -1,5 +1,9 @@
 # Case study 01 - Large Data Strategy
 
+## Účel případové studie
+
+
+
 ## Business konext
 
 Obchodní společnost ukládá údaje o prodejích do databáze Microsoft SQL Server.
