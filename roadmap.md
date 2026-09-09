@@ -1,4 +1,3 @@
-4	Spark principy	rozhodnutí Spark vs. běžné nástroje
 5	PySpark	praktická analýza v Spark DataFrame
 6	Warehouse, lake, lakehouse	porovnání úložišť a jednoduchý model
 7	ETL, ELT a vrstvy	návrh Bronze–Silver–Gold
@@ -7,39 +6,6 @@
 10	Orchestrace	návrh pořadí datových kroků
 11	Modern Data Stack	mapa kategorií a rolí
 12	Kombinace nástrojů	závěrečný architektonický scénář
-
-
-Lekce 4 — Spark: proč existuje
-
-Nejdříve pochopíme princip, teprve potom PySpark syntax.
-
-Témata
-limity zpracování dat na jednom počítači;
-distribuované zpracování;
-cluster;
-driver a workers;
-partitions;
-paralelní zpracování;
-lazy evaluation;
-transformations a actions;
-proč Spark nepracuje stejně jako pandas;
-kdy Spark dává a nedává smysl.
-Zjednodušená analogie
-pandas: jeden pracovník zpracovává celý úkol;
-Spark: koordinátor rozdělí práci mezi více pracovníků;
-partition: část datasetu přidělená ke zpracování;
-lazy evaluation: Spark si nejprve připraví plán a výpočet provede až ve chvíli, kdy je výsledek potřeba.
-Mini test
-
-Výběr mezi:
-
-Excel;
-SQL;
-pandas;
-Power Query;
-Spark.
-
-Nebudeme vybírat podle velikosti názvu technologie, ale podle objemu dat, zdroje, cíle, infrastruktury a frekvence zpracování.
 
 
 Lekce 5 — PySpark pro datového analytika
@@ -90,10 +56,7 @@ specialist-level konfiguraci výkonu.
 
 Lekce 6 — Data warehouse, data lake a lakehouse
 
-Tuto lekci zařadíme před Databricks, protože bez těchto pojmů by lakehouse prostředí Databricks nedávalo plný smysl.
-
 Data warehouse
-
 Analytické úložiště s připravenými a strukturovanými daty.
 
 Návaznost:
