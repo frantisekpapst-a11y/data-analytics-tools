@@ -333,8 +333,6 @@ Jeho hlavní odpovědností je:
 
 # Minitesty — Lekce 2: Jupyter Notebook Workflow
 
----
-
 ### 11. Jupyter Notebook a Python skript
 
 Jaký je hlavní rozdíl mezi souborem `.ipynb` a běžným Python skriptem `.py`?
@@ -616,6 +614,267 @@ Business Context
 ```
 
 Taková struktura pomáhá čtenáři pochopit účel analýzy, použitá data, provedený postup i výslednou business interpretaci.
+
+---
+
+# Minitesty — Lekce 3: Větší datasety a efektivní práce s daty
+
+### 21. Velikost dat na disku a v paměti
+
+Které tvrzení nejpřesněji popisuje vztah mezi velikostí souboru na disku a velikostí DataFrame v paměti?
+
+**A.** Obě velikosti jsou vždy stejné.
+
+**B.** DataFrame je vždy menší než původní soubor.
+
+**C.** Velikosti se mohou lišit podle formátu, komprese a datových typů.
+
+**D.** Rozdíl vzniká pouze při načítání z databáze.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Soubor na disku a DataFrame používají rozdílnou reprezentaci dat. Výslednou velikost ovlivňuje například:
+
+- komprese;
+- textový nebo binární formát;
+- datové typy;
+- způsob uložení textových hodnot v paměti.
+
+V našem testu měl například Parquet soubor na disku `3,36 MB`, ale načtený DataFrame zabíral přibližně `26,04 MB`.
+
+---
+
+### 22. Datový typ `category`
+
+Pro který sloupec je datový typ `category` nejvhodnější?
+
+**A.** `order_id`, který je pro každý řádek unikátní.
+
+**B.** `region`, který obsahuje pět opakujících se hodnot.
+
+**C.** `revenue`, který obsahuje číselné částky.
+
+**D.** `customer_comment`, který obsahuje různé dlouhé komentáře.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Datový typ `category` je vhodný pro sloupce s malým počtem často opakovaných hodnot. Pandas může místo opakovaného ukládání textů používat seznam kategorií a číselné kódy.
+
+V našem testu převod sloupců `region`, `product` a `channel` na `category` snížil spotřebu paměti přibližně o `43,95 %`.
+
+---
+
+### 23. Načítání vybraných sloupců
+
+Jaký je hlavní rozdíl mezi načtením vybraných sloupců z CSV a z Parquetu?
+
+**A.** CSV uchovává datové typy lépe než Parquet.
+
+**B.** Parquet může díky sloupcovému uložení nepotřebné sloupce vůbec nenačíst.
+
+**C.** Parametr `usecols` způsobí, že CSV nemusí přečíst textové řádky.
+
+**D.** Parquet musí vždy načíst všechny sloupce.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Parquet ukládá data po sloupcích. Parquet engine proto může načíst pouze sloupce uvedené v parametru `columns`.
+
+U CSV parametr `usecols` zajistí, že se do výsledného DataFrame uloží jen vybrané sloupce. CSV parser však stále musí projít textové řádky a rozpoznat jejich hodnoty.
+
+---
+
+### 24. SQL pushdown
+
+Co znamená SQL pushdown?
+
+**A.** Celá databázová tabulka se načte do Pandas a tam se vyfiltruje.
+
+**B.** SQL dotaz se uloží jako CSV soubor.
+
+**C.** Power BI odešle všechna data do Pythonu.
+
+**D.** Výběr sloupců, filtrování nebo agregaci provede databáze před odesláním výsledku.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+SQL pushdown znamená, že databáze provede operaci co nejblíže uloženým datům. Do Pandas nebo Power BI následně odešle pouze potřebný výsledek.
+
+```text
+Databáze
+→ SELECT / WHERE / JOIN / GROUP BY
+→ menší výsledek
+→ Python nebo Power BI
+```
+
+---
+
+### 25. Načítání pomocí chunks
+
+Jaký je hlavní účel parametru `chunksize` při načítání CSV?
+
+**A.** Automaticky odstraní duplicitní řádky.
+
+**B.** Postupně načítá části souboru a omezuje množství dat držených současně v paměti.
+
+**C.** Převede CSV do Parquetu.
+
+**D.** Zajistí, že se načte jen jeden vybraný sloupec.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Například `chunksize=50_000` znamená, že Pandas postupně zpracovává části po 50 000 řádcích. Celý CSV soubor proto nemusí být současně uložený v paměti.
+
+CSV se však stále postupně projde celé. Výběr sloupců zajišťuje parametr `usecols`, nikoliv `chunksize`.
+
+---
+
+### 26. Agregace při zpracování chunks
+
+Proč jsme při zpracování CSV pomocí chunks provedli `groupby()` dvakrát?
+
+**A.** První `groupby()` odstranil duplicity a druhý opravil datové typy.
+
+**B.** První `groupby()` filtroval rok a druhý vybíral sloupce.
+
+**C.** Nejprve jsme agregovali každý chunk a potom spojili a znovu agregovali dílčí výsledky.
+
+**D.** Druhá agregace byla zbytečná a výsledek nijak nezměnila.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Každý chunk obsahoval vlastní řádky pro stejné regiony. První `groupby()` vytvořil souhrn uvnitř každého chunku.
+
+Po spojení dílčích výsledků existovalo několik součtů například pro Prahu. Druhý `groupby()` je spojil do jednoho celkového výsledku za region.
+
+```text
+1. agregace
+→ souhrn každého chunku
+
+2. agregace
+→ celkový souhrn všech chunků
+```
+
+---
+
+### 27. Partitioning
+
+Co nejpřesněji znamená partitioning datasetu?
+
+**A.** Rozdělení zobrazení DataFrame na několik obrazovek.
+
+**B.** Fyzické rozdělení jednoho logického datasetu do souborů nebo složek podle vybraného sloupce.
+
+**C.** Postupné čtení jednoho CSV souboru po blocích.
+
+**D.** Převod všech textových sloupců na `category`.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Partitioning fyzicky rozděluje jeden logický dataset například podle roku:
+
+```text
+sales_partitioned
+├── year=2024
+└── year=2025
+```
+
+Při požadavku na rok 2025 může nástroj přeskočit celou partition `year=2024`.
+
+Chunks naproti tomu pouze řídí postupné čtení částí jednoho souboru.
+
+---
+
+### 28. Partitioning a Parquet
+
+Proč se partitioning často kombinuje právě s Parquetem?
+
+**A.** Parquet umožňuje mít několik excelových listů v jednom souboru.
+
+**B.** Parquet je jediný formát, který lze fyzicky rozdělit.
+
+**C.** Lze přeskočit nepotřebné partition a z potřebných souborů načíst jen vybrané sloupce a části dat.
+
+**D.** Partitionovaný Parquet je vždy rychlejší bez ohledu na velikost a strukturu dat.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Partitioning umožňuje přeskočit celé nepotřebné složky nebo soubory. Sloupcový formát Parquet navíc umožňuje z potřebných souborů načíst jen vybrané sloupce a podle metadat přeskočit některé části dat.
+
+Partitioning lze použít také s CSV, JSON nebo databázovými tabulkami. Parquet je však pro partitionované analytické datasety obvykle efektivnější.
+
+Partitioning nezaručuje automatické zrychlení každého dotazu. U malého datasetu může být režie práce s více soubory větší než dosažená úspora.
+
+---
+
+### 29. Agregace před načtením do Power BI
+
+Kdy dává smysl agregovat data v SQL ještě před načtením do Power BI?
+
+**A.** Vždy, protože detailní data se do Power BI nikdy nenačítají.
+
+**B.** Když report potřebuje pouze souhrnnou granularitu a detailní řádky by nevyužil.
+
+**C.** Pouze tehdy, když databáze obsahuje méně než 1 000 řádků.
+
+**D.** Když chceme všechny výpočty později provést nad jednotlivými objednávkami.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Pokud report potřebuje například pouze měsíční tržby podle regionu, může databáze provést agregaci a předat do Power BI jen výsledný souhrn.
+
+V našem testu SQL agregace snížila 300 000 detailních řádků na 120 agregovaných řádků.
+
+Pokud by však report potřeboval analýzu jednotlivých objednávek, taková agregace by odstranila potřebný detail. Granularitu proto volíme podle účelu výsledného reportu.
+
+---
+
+### 30. Kdy použít Spark
+
+Kdy je nejrozumnější začít uvažovat o Sparku?
+
+**A.** Jakmile dataset obsahuje více než 10 000 řádků.
+
+**B.** Vždy, když používáme Parquet.
+
+**C.** Když ani po rozumné optimalizaci nestačí paměť nebo výkon jednoho počítače.
+
+**D.** Když chceme z DataFrame vytvořit jednoduchý graf.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Neexistuje univerzální počet řádků, od kterého je nutné použít Spark. Nejdříve vyzkoušíme:
+
+- načítání potřebných sloupců;
+- filtrování ve zdroji;
+- SQL pushdown;
+- agregaci před načtením;
+- vhodné datové typy;
+- Parquet;
+- partitioning;
+- zpracování pomocí chunks.
+
+Spark začíná dávat smysl tehdy, když ani po těchto optimalizacích jeden počítač neposkytuje dostatek paměti nebo výkonu.
 
 ---
 
