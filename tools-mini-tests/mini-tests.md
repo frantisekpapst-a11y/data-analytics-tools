@@ -878,3 +878,246 @@ Spark začíná dávat smysl tehdy, když ani po těchto optimalizacích jeden p
 
 ---
 
+# Minitesty — Lekce 4: Spark — proč existuje
+
+### 31. Hlavní účel Apache Spark
+
+Jaký problém Apache Spark primárně pomáhá řešit?
+
+**A.** Tvorbu kontingenčních tabulek v Excelu.
+
+**B.** Distribuované zpracování rozsáhlých dat.
+
+**C.** Ruční úpravu malých CSV souborů.
+
+**D.** Vytváření vizuálů v Power BI.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Spark je výpočetní engine, který dokáže rozdělit data a výpočty mezi více výpočetních prostředků, typicky v clusteru. Pomáhá tak zpracovávat rozsáhlá data a mezivýsledky, které jeden počítač nezvládne dostatečně rychle nebo kvůli nedostatku paměti.
+
+---
+
+### 32. Spotřeba operační paměti
+
+Proč může zpracování dat vyžadovat výrazně více operační paměti, než odpovídá velikosti zdrojového souboru?
+
+**A.** Každý soubor se automaticky převádí na video.
+
+**B.** Spark vždy ukládá celý cluster do paměti.
+
+**C.** Vznikají pracovní kopie a mezivýsledky operací.
+
+**D.** Velikost souboru vždy odpovídá počtu procesorů.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Během zpracování mohou vznikat:
+
+- pracovní kopie dat;
+
+- filtrované DataFrames;
+
+- výsledky joinů;
+
+- mezivýsledky agregací a řazení.
+
+V paměti navíc mohou být data reprezentována jinak než v komprimovaném souboru na disku. Potřebná operační paměť proto nemusí odpovídat velikosti zdrojového souboru.
+
+---
+
+### 33. Optimalizace před použitím Sparku
+
+Analytik nezvládne načíst velký dataset do Pandas. Co by měl udělat dříve, než automaticky zvolí Spark?
+
+**A.** Převést dataset do Excelu.
+
+**B.** Omezit data, datové typy a mezivýsledky.
+
+**C.** Vytvořit co nejvíce kopií DataFrame.
+
+**D.** Načíst dataset současně do více notebooků.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Nejdříve je vhodné ověřit, zda lze:
+
+- vybrat pouze potřebné sloupce;
+
+- filtrovat nebo agregovat data už ve zdroji;
+
+- nastavit úspornější datové typy;
+
+- použít efektivnější formát, například Parquet;
+
+- omezit zbytečné kopie a mezivýsledky.
+
+Spark má smysl zvažovat až tehdy, když jeden počítač nestačí ani po rozumné optimalizaci.
+
+---
+
+### 34. Distribuované zpracování
+
+Co znamená distribuované zpracování dat ve Sparku?
+
+**A.** Uložení celého datasetu do jednoho excelového souboru.
+
+**B.** Ruční provádění každého výpočtu samostatným analytikem.
+
+**C.** Postupné zpracování všech dat jediným procesorem.
+
+**D.** Rozdělení dat a výpočtů mezi více propojených počítačů.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+Spark rozdělí rozsáhlý dataset a jeho zpracování na menší části. Ty mohou být přiděleny více propojeným počítačům a zpracovávány paralelně. Dílčí výsledky se následně spojí do požadovaného výstupu.
+
+---
+
+### 35. Cluster
+
+Co ve Sparku označuje pojem cluster?
+
+**A.** Skupinu propojených počítačů spolupracujících na výpočtu.
+
+**B.** Jeden sloupec obsahující seskupené hodnoty.
+
+**C.** Formát souboru optimalizovaný pro analytiku.
+
+**D.** Výslednou tabulku vytvořenou agregací dat.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Cluster je skupina propojených počítačů neboli uzlů, které společně poskytují procesorový výkon a operační paměť pro zpracování úlohy. Spark lze spustit také lokálně na jednom počítači, ale takové prostředí neposkytuje skutečný výkon clusteru s více počítači.
+
+---
+
+### 36. Driver
+
+Jaká je hlavní úloha driveru ve Spark aplikaci?
+
+**A.** Ukládat data jako soubory Parquet.
+
+**B.** Plánovat, rozdělovat a koordinovat výpočet.
+
+**C.** Vytvářet vizualizace v Power BI.
+
+**D.** Nahrazovat všechny workers v clusteru.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Driver přijme zadaný kód, vytvoří plán výpočtu, rozdělí práci a koordinuje její provedení. Nepředstavuje všechny pracovní uzly a jeho hlavní úlohou není ukládání dat do konkrétního souborového formátu.
+
+---
+
+### 37. Workers
+
+Jakou roli mají workers ve Spark clusteru?
+
+**A.** Navrhují business požadavky analýzy.
+
+**B.** Vytvářejí hlavní plán celé Spark aplikace.
+
+**C.** Poskytují prostředky pro přidělené výpočty.
+
+**D.** Ukládají všechny výsledky pouze do driveru.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Workers jsou pracovní uzly, které poskytují procesorový výkon a operační paměť pro provedení přidělených výpočtů. V praktické architektuře se na workers spouštějí výpočetní procesy označované jako executors.
+
+---
+
+### 38. Spark partition
+
+Co ve Sparku představuje partition?
+
+**A.** Část datasetu určenou k dílčímu zpracování.
+
+**B.** Počítač koordinující celou Spark aplikaci.
+
+**C.** Databázi používanou k ukládání výsledků.
+
+**D.** Report vytvořený po dokončení výpočtu.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Partition je část datasetu určená pro jeden dílčí výpočet. Rozdělení dat do partitions umožňuje jejich paralelní zpracování. Partition není worker, samostatný počítač ani databáze.
+
+---
+
+### 39. Počet partitions a workers
+
+Dataset má 12 partitions a Spark cluster 3 workers. Co z toho správně vyplývá?
+
+**A.** Devět partitions se vůbec nezpracuje.
+
+**B.** Každý worker může postupně zpracovat více partitions.
+
+**C.** Spark automaticky vytvoří devět dalších workers.
+
+**D.** Všechny partitions musí zpracovat pouze driver.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Počet partitions nemusí odpovídat počtu workers. Jeden worker může během výpočtu postupně zpracovat několik partitions. Dostupné výpočetní prostředky určují, kolik dílčích úloh může probíhat současně.
+
+---
+
+### 40. Režie distribuovaného zpracování
+
+Proč Spark nemusí být rychlejší než Pandas při jednorázovém zpracování malého datasetu?
+
+**A.** Spark neumí filtrovat ani agregovat data.
+
+**B.** Pandas vždy využívá celý výpočetní cluster.
+
+**C.** Režie distribuovaného zpracování může převýšit jeho přínos.
+
+**D.** Spark dokáže načítat pouze velmi velké soubory.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Spark musí práci naplánovat, rozdělit a koordinovat. Při distribuovaném zpracování navíc může probíhat komunikace a přenos dat mezi uzly. U malého jednorázového datasetu může tato režie trvat déle než samotný výpočet v Pandas.
+
+---
+
+### 41. Parquet partitioning a Spark partition
+
+Jaký je hlavní rozdíl mezi Parquet partitioningem a Spark partition?
+
+**A.** Oba pojmy vždy označují stejnou strukturu složek.
+
+**B.** První rozděluje uložená data, druhá data pro zpracování.
+
+**C.** První používá pouze Pandas, druhou pouze Excel.
+
+**D.** První označuje worker a druhá označuje driver.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Parquet partitioning představuje fyzické rozdělení uložených dat, například do složek podle roku nebo měsíce. Spark partition je část datasetu určená pro dílčí výpočet. Oba principy spolu mohou souviset, ale nejsou totožné.
+
+---
