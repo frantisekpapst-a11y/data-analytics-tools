@@ -1,4 +1,3 @@
-5	PySpark	praktická analýza v Spark DataFrame
 6	Warehouse, lake, lakehouse	porovnání úložišť a jednoduchý model
 7	ETL, ELT a vrstvy	návrh Bronze–Silver–Gold
 8	Cloud basics	mapa Azure, AWS a GCP
@@ -6,52 +5,6 @@
 10	Orchestrace	návrh pořadí datových kroků
 11	Modern Data Stack	mapa kategorií a rolí
 12	Kombinace nástrojů	závěrečný architektonický scénář
-
-
-Lekce 5 — PySpark pro datového analytika
-
-Toto bude hlavní praktická část zaměřená na Spark.
-
-Témata
-vytvoření SparkSession;
-načtení datasetu;
-Spark DataFrame;
-kontrola schématu;
-výběr sloupců;
-filtrace;
-tvorba vypočteného sloupce;
-chybějící hodnoty;
-agregace;
-spojování tabulek;
-řazení výsledků;
-ukládání výstupu;
-převod malého agregovaného výsledku do pandas.
-Porovnání syntaxe
-Operace	pandas	SQL	PySpark
-Výběr sloupců	df[[...]]	SELECT	select()
-Filtrace	maska	WHERE	filter()
-Nový sloupec	přiřazení	výraz v SELECT	withColumn()
-Agregace	groupby()	GROUP BY	groupBy()
-Spojení	merge()	JOIN	join()
-Chybějící hodnoty	fillna()	COALESCE()	fillna()
-Praktický mini scénář
-
-Prodejní data:
-
-Načtení objednávek
-→ kontrola schématu
-→ validace
-→ spojení s produkty a zákazníky
-→ výpočet revenue a profit
-→ agregace podle regionu a kategorie
-→ uložení výsledku
-Co úmyslně vynecháme
-pokročilou správu clusterů;
-detailní optimalizaci Spark execution planu;
-interní fungování Spark enginu;
-pokročilý streaming;
-pokročilé Spark ML;
-specialist-level konfiguraci výkonu.
 
 
 Lekce 6 — Data warehouse, data lake a lakehouse
