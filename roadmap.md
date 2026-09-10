@@ -1,49 +1,8 @@
-6	Warehouse, lake, lakehouse	porovnání úložišť a jednoduchý model
-7	ETL, ELT a vrstvy	návrh Bronze–Silver–Gold
 8	Cloud basics	mapa Azure, AWS a GCP
 9	Databricks	základní lakehouse notebook
 10	Orchestrace	návrh pořadí datových kroků
 11	Modern Data Stack	mapa kategorií a rolí
 12	Kombinace nástrojů	závěrečný architektonický scénář
-
-Lekce 7 — ETL, ELT a datové vrstvy
-ETL
-Extract → Transform → Load
-
-Data se upraví před uložením do cílového analytického systému.
-
-ELT
-Extract → Load → Transform
-
-Data se nejprve uloží a následně transformují uvnitř cílové platformy.
-
-Témata
-raw data;
-staging vrstva;
-transformovaná data;
-business-ready data;
-datová kvalita;
-opakovatelnost transformací;
-oddělení technických a business transformací;
-základní princip Bronze, Silver a Gold vrstev.
-Analogie s dosavadním Python workflow
-Lakehouse vrstva	Dosavadní analogie
-Bronze	df_raw
-Silver	clean_df
-Gold	agregované tabulky a KPI pro Power BI
-Praktický mini scénář
-
-Rozdělit zpracování objednávek do vrstev:
-
-Bronze
-→ původní CSV a JSON
-
-Silver
-→ validovaná a vyčištěná data
-
-Gold
-→ tržby, náklady a zisk podle regionu a kategorie
-
 
 Lekce 8 — Cloud basics pro datového analytika
 
@@ -64,7 +23,6 @@ sdílená odpovědnost.
 Azure, AWS a GCP
 
 Použijeme:
-
 Azure jako hlavní příklad, protože tvoří přirozenou návaznost na Power BI a Microsoft prostředí;
 AWS a GCP jako srovnávací alternativy;
 mapu kategorií služeb, nikoli seznam desítek produktů k memorování.
@@ -80,7 +38,6 @@ která operace může vytvářet náklady.
 Lekce 9 — Databricks
 
 Databricks spojí předchozí témata:
-
 Jupyter-style notebooks
 + Spark
 + PySpark
@@ -109,14 +66,12 @@ CSV / JSON
 Hranice vůči Automation
 
 V této lekci si vysvětlíme:
-
 co je job;
 co je pipeline;
 proč se kroky plánují;
 co znamená jejich závislost.
 
 Nebudeme zde ještě podrobně řešit:
-
 scheduling;
 retry;
 monitoring;
@@ -217,29 +172,6 @@ Složka	Příslušná lekce	Co v ní bude
 tools-case-studies/lakehouse-layers	7	Case study rozdělení dat do vrstev Bronze–Silver–Gold
 tools-notebooks/databricks-lakehouse	9	Jednoduchá ukázka zpracování dat v Databricks notebooku
 
-Lekce 7 — lakehouse-layers
-
-Tady už se zaměříme na tok dat:
-
-zdrojová data
-→ Bronze
-→ Silver
-→ Gold
-→ Power BI
-
-Case study ukáže například:
-
-Bronze: původní CSV, JSON a databázové exporty;
-Silver: vyčištěná, validovaná a propojená data;
-Gold: faktové a dimenzní tabulky nebo agregace připravené pro reporting.
-
-Tím prakticky propojíme:
-
-data lake;
-lakehouse;
-ETL a ELT;
-datové vrstvy;
-warehouse design z Lekce 6.
 Lekce 9 — databricks-lakehouse
 
 Tato složka bude obsahovat notebook, ve kterém si na malém příkladu ukážeme, jak se předchozí návrh realizuje v prostředí Databricks.
