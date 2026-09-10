@@ -168,8 +168,6 @@ Nebude se ještě realizovat kompletní end-to-end řešení. To patří až do 
 
 
 
-Složka	Příslušná lekce	Co v ní bude
-tools-case-studies/lakehouse-layers	7	Case study rozdělení dat do vrstev Bronze–Silver–Gold
 tools-notebooks/databricks-lakehouse	9	Jednoduchá ukázka zpracování dat v Databricks notebooku
 
 Lekce 9 — databricks-lakehouse
