@@ -1700,3 +1700,320 @@ Pomáhá zjistit:
 - proč se výsledná hodnota liší od zdroje.
 
 ---
+
+# Minitesty — Lekce 7: Cloud Platforms
+
+### 62. Model cloudové databázové služby
+
+Firma nechce spravovat fyzický server ani instalaci databázového systému. Chce používat spravovanou cloudovou relační databázi. Který model služby tomu odpovídá?
+
+**A.** IaaS
+
+**B.** PaaS
+
+**C.** On-premises
+
+**D.** Objektové úložiště
+
+#### Řešení
+
+Správná odpověď je **B — PaaS**.
+
+Platform as a Service poskytuje spravovanou platformu. Cloudový poskytovatel spravuje fyzickou infrastrukturu, operační systém a databázovou platformu. Zákaznická organizace se soustředí zejména na:
+
+- konfiguraci služby;
+- databáze a tabulky;
+- data;
+- uživatele a oprávnění;
+- kontrolu výkonu a nákladů.
+
+Příkladem PaaS služby je Azure SQL Database.
+
+---
+
+### 63. Úložiště pro datové vrstvy
+
+Která Azure služba je nejvhodnější pro uložení CSV, JSON a Parquet souborů do vrstev Bronze, Silver a Gold?
+
+**A.** Azure Data Lake Storage Gen2
+
+**B.** Azure Key Vault
+
+**C.** Microsoft Entra ID
+
+**D.** Azure DevOps Boards
+
+#### Řešení
+
+Správná odpověď je **A — Azure Data Lake Storage Gen2**.
+
+ADLS Gen2 je objektové úložiště s hierarchickou strukturou vhodnou pro data lake a analytické zpracování.
+
+Může obsahovat například:
+
+```text
+bronze/
+silver/
+gold/
+```
+
+Key Vault slouží pro tajné údaje a Entra ID pro identity. Ani jedna z těchto služeb není určena k ukládání analytických datasetů.
+
+---
+
+### 64. Resource group
+
+Jaká je hlavní role resource group v Microsoft Azure?
+
+**A.** Provádět analytické SQL dotazy.
+
+**B.** Ukládat tajná hesla aplikací.
+
+**C.** Seskupovat související Azure prostředky.
+
+**D.** Vytvářet Power BI vizualizace.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Resource group je logický kontejner pro související Azure resources. Může seskupovat například prostředky jednoho analytického řešení:
+
+```text
+rg-logistics-analytics-prod
+
+- Storage Account
+- Azure Data Factory
+- Azure SQL Database
+- Azure Key Vault
+```
+
+Resource group pomáhá prostředky organizovat, spravovat, zabezpečovat a sledovat z hlediska nákladů. Sama neukládá analytická data ani neprovádí SQL dotazy.
+
+---
+
+### 65. Řízení datové pipeline
+
+Každou noc se mají data z lokálního SQL Serveru zkopírovat do ADLS Bronze a potom se má spustit transformační notebook. Která Azure služba má proces řídit?
+
+**A.** Azure SQL Database
+
+**B.** Azure Key Vault
+
+**C.** Azure Data Lake Storage Gen2
+
+**D.** Azure Data Factory
+
+#### Řešení
+
+Správná odpověď je **D — Azure Data Factory**.
+
+Azure Data Factory slouží pro datovou integraci a orchestraci pipeline. Může:
+
+- naplánovat spuštění;
+- zkopírovat data;
+- kontrolovat pořadí kroků;
+- spustit navazující notebook;
+- zaznamenat úspěch nebo chybu procesu.
+
+```text
+lokální SQL Server
+→ Azure Data Factory
+→ ADLS Bronze
+→ transformační notebook
+→ Silver a Gold
+```
+
+ADLS Gen2 data ukládá, ale samo neřídí pořadí jednotlivých kroků.
+
+---
+
+### 66. Azure a Microsoft Fabric
+
+Které tvrzení nejlépe vystihuje rozdíl mezi samostatným Azure řešením a Microsoft Fabricem?
+
+**A.** Azure slouží jen pro soubory, Fabric jen pro SQL.
+
+**B.** Azure nabízí samostatné služby, Fabric více analytických služeb sjednocuje.
+
+**C.** Fabric je samostatný globální cloud mimo ekosystém Microsoftu.
+
+**D.** Fabric neobsahuje Power BI ani datové pipeline.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+V samostatném Azure řešení lze kombinovat například:
+
+```text
+Azure Data Factory
++ ADLS Gen2
++ Azure Databricks
++ Azure Synapse Analytics
++ Power BI
+```
+
+Microsoft Fabric integruje více analytických workloadů do jedné SaaS platformy:
+
+```text
+Fabric Data Factory
++ OneLake
++ Lakehouse
++ Warehouse
++ Power BI
+```
+
+Azure nabízí větší volnost při skládání specializovaných služeb. Fabric zjednodušuje jejich propojení a je těsně integrovaný s Power BI.
+
+---
+
+### 67. Transformace pomocí Power Query ve Fabricu
+
+Analytik zná Power Query a potřebuje ve Fabricu sjednotit názvy sloupců, datové typy a několik textových hodnot. Který nástroj je nejpraktičtější?
+
+**A.** Dataflow Gen2
+
+**B.** Fabric Notebook s PySparkem
+
+**C.** Microsoft Entra ID
+
+**D.** Fabric Capacity Metrics
+
+#### Řešení
+
+Správná odpověď je **A — Dataflow Gen2**.
+
+Dataflow Gen2 používá Power Query Online a je vhodný pro běžné low-code transformace, například:
+
+- změnu datových typů;
+- přejmenování sloupců;
+- filtrování;
+- nahrazování hodnot;
+- spojování tabulek;
+- standardizaci textu.
+
+Fabric Notebook by úlohu také mohl zvládnout, ale jednoduchá transformace nevyžaduje PySpark ani složitější programovou logiku.
+
+---
+
+### 68. Přístup Azure služby bez uloženého hesla
+
+Azure Data Factory potřebuje zapisovat do ADLS Gen2 bez hesla uloženého v pipeline. Jaký postup je nejvhodnější?
+
+**A.** Zveřejnit Storage Account na internetu.
+
+**B.** Vložit přístupový klíč přímo do kódu.
+
+**C.** Použít managed identity a Azure RBAC.
+
+**D.** Přidělit přístup všem uživatelům.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Managed identity poskytne Azure službě vlastní spravovanou identitu. Pomocí Azure RBAC jí následně přidělíme pouze potřebné oprávnění.
+
+```text
+Azure Data Factory
+→ managed identity
+→ Azure RBAC
+→ zápis do ADLS Bronze
+```
+
+Tento postup omezuje potřebu ukládat hesla nebo přístupové klíče do pipeline a odpovídá principu least privilege.
+
+---
+
+### 69. Připojení Power BI k lokálním datům
+
+Power BI Service má obnovovat data z SQL Serveru dostupného pouze ve firemní interní síti. Co bude obvykle potřeba?
+
+**A.** Fabric Warehouse
+
+**B.** Azure Key Vault
+
+**C.** Direct Lake
+
+**D.** On-premises data gateway
+
+#### Řešení
+
+Správná odpověď je **D — on-premises data gateway**.
+
+Gateway funguje jako bezpečný most mezi lokálním datovým zdrojem a cloudovými službami Microsoftu.
+
+```text
+lokální SQL Server
+→ on-premises data gateway
+→ Power BI Service
+```
+
+Gateway musí mít přístup k lokálnímu zdroji a být dostupná v době plánované aktualizace. Není datovým úložištěm ani režimem uložení dat v Power BI.
+
+---
+
+### 70. Sdílená Fabric Capacity
+
+Ve Fabricu současně běží náročné notebooky, Dataflow Gen2 a velké Power BI dotazy. Reporty se výrazně zpomalí. Jaká je pravděpodobná příčina?
+
+**A.** Workloads soutěží o sdílenou Fabric Capacity.
+
+**B.** OneLake automaticky odstranil všechny tabulky.
+
+**C.** Entra ID změnilo formát dat.
+
+**D.** Power BI přestal podporovat DAX.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Fabric workloads mohou sdílet stejnou výpočetní kapacitu. Tu mohou současně využívat například:
+
+- pipeline;
+- Dataflow Gen2;
+- notebooky;
+- Warehouse;
+- Power BI dotazy.
+
+Při vysokém zatížení se mohou reporty zpomalit nebo může nastat throttling, tedy dočasné omezení výkonu. Pomoci může optimalizace úloh, jejich rozložení v čase nebo úprava velikosti kapacity.
+
+---
+
+### 71. Převod služeb mezi AWS a Azure
+
+V inzerátu se uvádí ukládání dat v Amazon S3, ETL pomocí AWS Glue a analytika v Amazon Redshift. Která Azure mapa je nejbližší?
+
+**A.** Key Vault → Entra ID → Power BI
+
+**B.** ADLS Gen2 → Azure Data Factory → Azure Synapse Analytics
+
+**C.** Azure SQL Database → Key Vault → Resource group
+
+**D.** Power BI → Azure Databricks → Entra ID
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Služby přiřadíme podle jejich hlavní role:
+
+```text
+Amazon S3
+→ objektové úložiště
+→ ADLS Gen2
+
+AWS Glue
+→ datová integrace a ETL
+→ Azure Data Factory
+
+Amazon Redshift
+→ analytický datový sklad
+→ Azure Synapse Analytics
+```
+
+Nejde o přesné technické náhrady. Mapa pomáhá rozpoznat, jakou roli služba plní v datové architektuře.
+
+---

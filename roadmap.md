@@ -1,38 +1,8 @@
-8	Cloud basics	mapa Azure, AWS a GCP
 9	Databricks	základní lakehouse notebook
 10	Orchestrace	návrh pořadí datových kroků
 11	Modern Data Stack	mapa kategorií a rolí
 12	Kombinace nástrojů	závěrečný architektonický scénář
 
-Lekce 8 — Cloud basics pro datového analytika
-
-Cílem nebude technická správa cloudu, ale schopnost orientovat se ve firemním cloudovém prostředí.
-
-Témata
-cloud vs. lokální prostředí vs. on-premise;
-cloudové úložiště;
-cloudová databáze;
-cloudový data warehouse;
-výpočetní prostředky;
-identity a oprávnění;
-region;
-škálování;
-náklady podle využití;
-základní bezpečnost;
-sdílená odpovědnost.
-Azure, AWS a GCP
-
-Použijeme:
-Azure jako hlavní příklad, protože tvoří přirozenou návaznost na Power BI a Microsoft prostředí;
-AWS a GCP jako srovnávací alternativy;
-mapu kategorií služeb, nikoli seznam desítek produktů k memorování.
-Analytik musí rozumět zejména tomu:
-kde jsou data uložená;
-jakým způsobem k nim přistupuje;
-kde probíhá SQL dotaz nebo transformace;
-kdo nastavuje oprávnění;
-odkud Power BI načítá data;
-která operace může vytvářet náklady.
 
 
 Lekce 9 — Databricks
@@ -182,18 +152,3 @@ načtení dat
 → uložení nebo příprava výsledné tabulky
 
 Použijeme jen minimum kódu potřebné k pochopení notebooku a lakehouse workflow. Nebudeme se učit PySpark jako samostatný programovací nástroj.
-
-
-Lekce 7
-→ ETL, ELT a Bronze–Silver–Gold
-→ case study lakehouse-layers
-
-Lekce 9
-→ prostředí Databricks
-→ notebook databricks-lakehouse
-
-Lekce 12
-→ propojení všech témat
-→ závěrečný architektonický scénář
-
-Takže teď pokračujeme Lekcí 6. Jejím hlavním praktickým výstupem bude warehouse-design. Zbývající dvě složky zatím necháme připravené pro Lekce 7 a 9.
