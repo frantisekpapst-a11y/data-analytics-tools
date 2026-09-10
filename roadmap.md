@@ -6,54 +6,6 @@
 11	Modern Data Stack	mapa kategorií a rolí
 12	Kombinace nástrojů	závěrečný architektonický scénář
 
-
-Lekce 6 — Data warehouse, data lake a lakehouse
-
-Data warehouse
-Analytické úložiště s připravenými a strukturovanými daty.
-
-Návaznost:
-
-SQL;
-faktové a dimenzní tabulky;
-hvězdicové schéma;
-datamarty;
-Power BI datový model.
-Data lake
-
-Úložiště různých typů dat, často v původní nebo méně zpracované podobě.
-
-Může obsahovat:
-
-CSV;
-JSON;
-Parquet;
-logy;
-obrázky;
-další strukturovaná i nestrukturovaná data.
-Lakehouse
-
-Spojuje flexibilní ukládání data lake s některými vlastnostmi řízeného data warehouse.
-
-Klíčové porovnání
-Oblast	Warehouse	Lake	Lakehouse
-Typická data	strukturovaná	různé formáty	různé formáty a řízené tabulky
-Hlavní využití	BI a reporting	ukládání a další zpracování	analytika, BI a data engineering
-Struktura	předem řízená	volnější	kombinovaná
-Typický uživatel	analytik, BI tým	data engineer, data scientist	více datových rolí
-Praktický mini scénář
-
-Navrhnout jednoduchý prodejní datový model:
-
-fact_sales
-dim_customer
-dim_product
-dim_date
-dim_region
-
-Následně určit, která původní data by mohla být nejprve uložena v lake a která data už mají být připravena pro warehouse nebo reporting.
-
-
 Lekce 7 — ETL, ELT a datové vrstvy
 ETL
 Extract → Transform → Load
@@ -258,3 +210,60 @@ označení částí, které budou později automatizovány;
 upozornění na technologie, které by byly pro daný scénář zbytečné.
 
 Nebude se ještě realizovat kompletní end-to-end řešení. To patří až do Analytical Workflow Portfolio.
+
+
+
+Složka	Příslušná lekce	Co v ní bude
+tools-case-studies/lakehouse-layers	7	Case study rozdělení dat do vrstev Bronze–Silver–Gold
+tools-notebooks/databricks-lakehouse	9	Jednoduchá ukázka zpracování dat v Databricks notebooku
+
+Lekce 7 — lakehouse-layers
+
+Tady už se zaměříme na tok dat:
+
+zdrojová data
+→ Bronze
+→ Silver
+→ Gold
+→ Power BI
+
+Case study ukáže například:
+
+Bronze: původní CSV, JSON a databázové exporty;
+Silver: vyčištěná, validovaná a propojená data;
+Gold: faktové a dimenzní tabulky nebo agregace připravené pro reporting.
+
+Tím prakticky propojíme:
+
+data lake;
+lakehouse;
+ETL a ELT;
+datové vrstvy;
+warehouse design z Lekce 6.
+Lekce 9 — databricks-lakehouse
+
+Tato složka bude obsahovat notebook, ve kterém si na malém příkladu ukážeme, jak se předchozí návrh realizuje v prostředí Databricks.
+
+Nepůjde o hlubokou výuku PySparku. Notebook bude zaměřený na pochopení pracovního postupu:
+
+načtení dat
+→ základní kontrola
+→ jednoduchá transformace
+→ uložení nebo příprava výsledné tabulky
+
+Použijeme jen minimum kódu potřebné k pochopení notebooku a lakehouse workflow. Nebudeme se učit PySpark jako samostatný programovací nástroj.
+
+
+Lekce 7
+→ ETL, ELT a Bronze–Silver–Gold
+→ case study lakehouse-layers
+
+Lekce 9
+→ prostředí Databricks
+→ notebook databricks-lakehouse
+
+Lekce 12
+→ propojení všech témat
+→ závěrečný architektonický scénář
+
+Takže teď pokračujeme Lekcí 6. Jejím hlavním praktickým výstupem bude warehouse-design. Zbývající dvě složky zatím necháme připravené pro Lekce 7 a 9.
