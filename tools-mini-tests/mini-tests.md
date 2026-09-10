@@ -1394,3 +1394,309 @@ Pokud se výsledky po transformaci liší, musí být rozdíl vysvětlen konkré
 
 ---
 
+# Minitesty — Lekce 6: ETL, ELT a datové vrstvy
+
+### 52. ETL proces
+
+Python načte data z CSV, vyčistí je v Pandas a teprve poté uloží připravené tabulky do datového skladu. Jaký přístup používá?
+
+**A.** ETL.
+
+**B.** ELT.
+
+**C.** Pouze Extract.
+
+**D.** Pouze Load.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Pořadí odpovídá ETL:
+
+```text
+Extract
+→ načtení CSV
+
+Transform
+→ čištění v Pandas
+
+Load
+→ uložení připravených tabulek do datového skladu
+```
+
+Rozhodující je, že transformace proběhne před uložením dat do cílového analytického systému.
+
+---
+
+### 53. ELT proces
+
+Firma nejprve uloží původní data do lakehouse a poté je transformuje uvnitř stejné platformy. Jaký přístup používá?
+
+**A.** ETL.
+
+**B.** ELT.
+
+**C.** Pouze Transform.
+
+**D.** Pouze reporting.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Pořadí odpovídá ELT:
+
+```text
+Extract
+→ získání zdrojových dat
+
+Load
+→ uložení původních dat do lakehouse
+
+Transform
+→ úprava dat uvnitř cílové platformy
+```
+
+Použitý programovací jazyk sám o sobě nerozhoduje, zda jde o ETL nebo ELT. Rozhodující je pořadí kroků a místo, kde transformace proběhne.
+
+---
+
+### 54. Zachování původních dat
+
+Která data musí firma zachovat, aby mohla později zopakovat zpracování přesně z původního vstupu?
+
+**A.** Pouze finální Power BI report.
+
+**B.** Pouze agregované Gold tabulky.
+
+**C.** Raw data.
+
+**D.** Dočasný obsah paměti notebooku.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Raw data zachovávají původní vstup ze zdrojového systému. Slouží pro:
+
+- audit a dohledatelnost;
+- kontrolu transformačních pravidel;
+- opravu chyb v pipeline;
+- opakované zpracování;
+- vytvoření nového analytického výstupu.
+
+Pokud zdroj obsahuje chybnou hodnotu, původní kopie ji zachová. Oprava se provede až v další datové vrstvě.
+
+---
+
+### 55. Staging vrstva
+
+Jaký je hlavní účel staging vrstvy?
+
+**A.** Prezentovat finální KPI managementu.
+
+**B.** Nahradit všechny zdrojové systémy.
+
+**C.** Uchovávat pouze Power BI vizualizace.
+
+**D.** Dočasně připravit data pro další transformace.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+Staging je pomocná pracovní oblast mezi zdrojem a cílovými analytickými tabulkami. Může sloužit například pro:
+
+- dočasné načtení dat;
+- kontrolu struktury;
+- sjednocení názvů sloupců;
+- nastavení datových typů;
+- identifikaci nových nebo změněných záznamů;
+- přípravu dat pro další transformační krok.
+
+Na rozdíl od dlouhodobě zachovaných raw dat může být staging při každém zpracování přepsán nebo po dokončení odstraněn.
+
+---
+
+### 56. Business transformace
+
+Do které skupiny patří výpočet tržby podle firemního pravidla `quantity × unit_price × (1 − discount_pct)`?
+
+**A.** Technická transformace.
+
+**B.** Business transformace.
+
+**C.** Extract.
+
+**D.** Load.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Vzorec vyjadřuje schválené obchodní pravidlo určující, co firma považuje za tržbu.
+
+```text
+revenue
+= quantity × unit_price × (1 − discount_pct)
+```
+
+Technické transformace upravují například datové typy, názvy sloupců nebo formát textu. Business transformace dávají datům význam potřebný pro analýzu a rozhodování.
+
+---
+
+### 57. Reprodukovatelnost pipeline
+
+Co nejlépe charakterizuje reprodukovatelnou datovou pipeline?
+
+**A.** Uložené kroky vytvářejí ze stejného vstupu stejný výstup.
+
+**B.** Analytik pokaždé upraví data podle paměti.
+
+**C.** Každý report používá vlastní definici ukazatelů.
+
+**D.** Původní data se po zpracování vždy odstraní.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Reprodukovatelnost znamená:
+
+```text
+stejný vstup
++ stejné transformační kroky
++ stejná business pravidla
+= stejný výstup
+```
+
+Proces nemá záviset na ručních úpravách, skrytém stavu notebooku nebo paměti analytika. Kroky musí být uložené, správně seřazené a opakovaně spustitelné.
+
+---
+
+### 58. Idempotence
+
+Pipeline se stejnými vstupy proběhne dvakrát. Která vlastnost zajistí, že nevytvoří duplicitní objednávky?
+
+**A.** Granularita.
+
+**B.** Data lineage.
+
+**C.** Schema-on-read.
+
+**D.** Idempotence.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+Idempotence znamená, že opakované spuštění stejného procesu nezpůsobí další nechtěnou změnu.
+
+```text
+první spuštění
+→ objednávka 5013 je uložena jednou
+
+opakované spuštění
+→ objednávka 5013 zůstane uložena jednou
+```
+
+Granularita určuje význam řádku a data lineage popisuje cestu dat. Samy o sobě ale nezabraňují opakovanému vložení stejné objednávky.
+
+---
+
+### 59. Silver vrstva
+
+Data mají správné typy, odstraněné potvrzené duplicity, standardizované regiony a vyřešené chybějící hodnoty. Pro konkrétní report ještě nebyly vytvořeny business agregace. Do které vrstvy patří?
+
+**A.** Bronze.
+
+**B.** Gold.
+
+**C.** Silver.
+
+**D.** Reporting.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Silver obsahuje vyčištěná, validovaná a sjednocená data použitelná pro další zpracování.
+
+Typické kroky Silver vrstvy:
+
+- nastavení datových typů;
+- odstranění potvrzených duplicit;
+- standardizace textových hodnot;
+- řešení chybějících údajů;
+- kontrola klíčů;
+- oddělení neplatných záznamů;
+- propojení souvisejících zdrojů.
+
+Data už nejsou původní, takže nepatří do Bronze. Zároveň ještě nejsou připravena pro konkrétní business výstup, takže nejde o Gold.
+
+---
+
+### 60. Gold vrstva
+
+Který výstup nejlépe odpovídá Gold vrstvě?
+
+**A.** Neupravený měsíční CSV export objednávek.
+
+**B.** `fact_sales`, dimenze a KPI připravené pro Power BI.
+
+**C.** Dočasná kopie souboru ve staging oblasti.
+
+**D.** Seznam řádků odmítnutých validační kontrolou.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Gold obsahuje business-ready data připravená pro konkrétní analytické využití. Může jít například o:
+
+- faktové a dimenzní tabulky;
+- Sales datamart;
+- business KPI;
+- agregace podle regionu a kategorie;
+- tabulky připravené pro Power BI.
+
+Gold nemusí obsahovat pouze agregované výsledky. Může zachovat detail položek objednávek, pokud ho cílový reporting potřebuje.
+
+---
+
+### 61. Data lineage
+
+Management chce zjistit, ze kterého zdrojového sloupce vzniklo KPI `Total Revenue` a jakými transformacemi prošlo. Který princip tuto cestu popisuje?
+
+**A.** Data lineage.
+
+**B.** Obousměrné filtrování.
+
+**C.** Náhodné vzorkování.
+
+**D.** Ruční formátování reportu.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Data lineage znamená dohledatelnost cesty dat od zdroje až ke konečnému výstupu.
+
+```text
+orders.csv.quantity
+→ Bronze orders.quantity
+→ Silver orders.quantity
+→ Gold fact_sales.quantity
+→ Power BI Total Quantity
+```
+
+Pomáhá zjistit:
+
+- odkud údaj pochází;
+- jakými transformacemi prošel;
+- které výstupy ho používají;
+- co ovlivní změna zdrojového sloupce;
+- proč se výsledná hodnota liší od zdroje.
+
+---
