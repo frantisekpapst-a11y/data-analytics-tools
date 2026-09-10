@@ -1,8 +1,10 @@
-# Case study 01 - Large Data Strategy
+# Case study 02 - Large Data Strategy
 
 ## Účel případové studie
 
+Účelem případové studie je zhodnotit neefektivní způsob zpracování rozsáhlých prodejních dat a navrhnout vhodnější datovou cestu od SQL Serveru až k reportingu v Power BI.
 
+Cílem není technicky zpracovat všech 80 milionů řádků. Výstupem je zdůvodněný návrh efektivnějšího analytického řešení, který používá každý nástroj pouze tam, kde přináší praktický užitek.
 
 ## Business konext
 
@@ -64,7 +66,7 @@ Odpověz vlastními slovy na následující otázky:
 3. Proč není správné dělat veškeré filtrování až v Pandas?
 4. Proč bychom neměli automaticky přejít rovnou na Spark?
 
-## Task 1 — Řešení
+## Úkol 1 - řešení
 
 ### 1. Export celé tabulky do CSV
 
