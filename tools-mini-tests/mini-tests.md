@@ -1121,3 +1121,276 @@ Správná odpověď je **B**.
 Parquet partitioning představuje fyzické rozdělení uložených dat, například do složek podle roku nebo měsíce. Spark partition je část datasetu určená pro dílčí výpočet. Oba principy spolu mohou souviset, ale nejsou totožné.
 
 ---
+
+# Minitesty — Lekce 5: Data warehouse, data lake a lakehouse
+
+### 42. Provozní a analytické prostředí
+
+Které prostředí je primárně určené pro historickou analýzu a pravidelný management reporting?
+
+**A.** OLTP databáze provozní aplikace.
+
+**B.** OLAP prostředí datového skladu.
+
+**C.** Paměť spuštěného notebooku.
+
+**D.** Samostatný soubor každého analytika.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+OLAP prostředí je určené pro analytické dotazy, agregace a práci s historickými daty. Data warehouse může integrovat data z více zdrojových systémů a poskytovat jednotný podklad pro pravidelný reporting.
+
+OLTP databáze je naproti tomu optimalizovaná především pro každodenní provoz, například vytváření objednávek, aktualizaci skladových zásob nebo ukládání plateb.
+
+---
+
+### 43. Faktová tabulka
+
+Která tabulka bude v prodejním hvězdicovém schématu faktovou tabulkou?
+
+**A.** Tabulka produktů s názvem a kategorií.
+
+**B.** Kalendářní tabulka s měsícem a rokem.
+
+**C.** Tabulka prodejních položek s tržbami a množstvím.
+
+**D.** Tabulka regionů s názvem a zemí.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Faktová tabulka zachycuje měřitelné obchodní události. V prodejním modelu může jeden řádek představovat jednu položku objednávky a obsahovat například:
+
+- prodané množství;
+- skutečnou jednotkovou cenu;
+- slevu;
+- tržby;
+- náklady.
+
+Ostatní uvedené tabulky obsahují popisné atributy a představují dimenze.
+
+---
+
+### 44. Granularita faktové tabulky
+
+Jedna objednávka může obsahovat více produktů. Jaká granularita `fact_sales` umožní analyzovat výsledky podle jednotlivých produktů?
+
+**A.** Jeden řádek na zákazníka.
+
+**B.** Jeden řádek na položku objednávky.
+
+**C.** Jeden řádek na kalendářní rok.
+
+**D.** Jeden řádek na produktovou kategorii.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Při granularitě položky objednávky platí:
+
+```text
+1 řádek
+=
+1 produkt na 1 objednávce
+```
+
+Každý řádek může obsahovat produkt, množství, cenu, slevu, tržbu a náklady konkrétní položky. Pokud objednávka obsahuje čtyři produktové položky, vzniknou ve `fact_sales` čtyři řádky.
+
+---
+
+### 45. Technický klíč dimenze
+
+Jakou roli má `customer_key` vytvořený uvnitř datového skladu?
+
+**A.** Představuje hodnotu zákazníkových tržeb.
+
+**B.** Nahrazuje všechny atributy zákazníka.
+
+**C.** Určuje pořadí měsíců v kalendáři.
+
+**D.** Slouží jako surrogate key dimenze zákazníka.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+`customer_key` je surrogate key, tedy technický klíč vytvořený v datovém skladu. Používá se jako:
+
+- primární klíč v `dim_customer`;
+- cizí klíč ve `fact_sales`;
+- základ vztahu mezi dimenzí a faktovou tabulkou.
+
+Původní `customer_id` ze CRM zůstává v dimenzi jako natural neboli business key, aby bylo možné zákazníka dohledat ve zdrojovém systému.
+
+---
+
+### 46. Neznámý člen dimenze
+
+Objednávka odkazuje na zákazníka, který nebyl nalezen v `dim_customer`. Jaký postup nejlépe zachová tržby i referenční integritu?
+
+**A.** Přiřadit objednávku technickému členu `Unknown`.
+
+**B.** Odstranit celou objednávku z datového skladu.
+
+**C.** Přiřadit objednávku náhodnému zákazníkovi.
+
+**D.** Přepsat tržbu objednávky na nulu.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+V `dim_customer` lze vytvořit technický záznam:
+
+```text
+customer_key = 0
+customer_name = Unknown
+customer_type = Unknown
+```
+
+Objednávce se následně přiřadí `customer_key = 0`. Prodej zůstane zachovaný, cizí klíč odkazuje na existující člen dimenze a neznámé zákazníky lze samostatně kontrolovat v reportu.
+
+---
+
+### 47. Vztah dimenze a faktové tabulky
+
+Jaký vztah se typicky nastaví mezi `dim_product` a `fact_sales` v Power BI hvězdicovém schématu?
+
+**A.** N:N s filtrováním oběma směry.
+
+**B.** 1:1 bez možnosti filtrování.
+
+**C.** 1:N s filtrem z dimenze do faktové tabulky.
+
+**D.** N:1 s filtrem pouze z faktové tabulky do dimenze.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Jeden produkt se v `dim_product` nachází právě jednou, ale může se objevit v mnoha řádcích `fact_sales`.
+
+```text
+dim_product 1:N fact_sales
+```
+
+V Power BI se zpravidla použije jednosměrné filtrování z dimenze do faktové tabulky. Výběr produktu nebo kategorie tak omezí odpovídající prodejní řádky.
+
+---
+
+### 48. Sales datamart
+
+Co nejlépe vystihuje Sales datamart?
+
+**A.** Provozní systém pro zapisování objednávek.
+
+**B.** Analytickou část zaměřenou na prodejní oblast.
+
+**C.** Souborový formát pro ukládání tabulek.
+
+**D.** Vazební tabulku mezi dvěma dimenzemi.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Sales datamart je analytická oblast připravená pro analýzu prodejů. Může obsahovat například:
+
+- `fact_sales`;
+- `dim_customer`;
+- `dim_product`;
+- `dim_date`;
+- `dim_region`.
+
+Datamart může být samostatná databáze, databázové schéma, sada tabulek či pohledů nebo logicky vymezená část centrálního datového skladu.
+
+---
+
+### 49. Uložení původních dat
+
+Kam nejlépe uložit původní CSV, JSON, databázové exporty a aplikační logy pro budoucí zpracování?
+
+**A.** Do jediné faktové tabulky.
+
+**B.** Do jednotlivých DAX měr.
+
+**C.** Do kalendářní dimenze.
+
+**D.** Do data lake.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+Data lake je vhodný pro ukládání různých typů dat v původní nebo méně zpracované podobě. Umožňuje:
+
+- zachovat původní vstupy;
+- zopakovat zpracování;
+- použít data pro další analytické účely;
+- ukládat strukturovaná, polostrukturovaná i nestrukturovaná data.
+
+Samotné uložení souborů ale nezajišťuje jejich kvalitu, význam ani připravenost pro reporting.
+
+---
+
+### 50. Lakehouse
+
+Které tvrzení nejlépe popisuje lakehouse?
+
+**A.** Kombinuje data lake s řízenými analytickými tabulkami.
+
+**B.** Slouží pouze jako provozní databáze e-shopu.
+
+**C.** Obsahuje výhradně neupravené textové soubory.
+
+**D.** Nahrazuje všechny vizualizace v Power BI.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Lakehouse kombinuje flexibilní ukládání různých dat s vlastnostmi řízených analytických tabulek. Může podporovat například:
+
+- původní i připravená data;
+- kontrolu datového schématu;
+- historii změn;
+- SQL analytiku;
+- BI reporting;
+- data engineering a machine learning.
+
+Lakehouse nenahrazuje Power BI. Připravuje a zpřístupňuje data, nad kterými může Power BI vytvořit sémantický model a report.
+
+---
+
+### 51. Odsouhlasení dat
+
+Co znamená reconciliation při validaci datového skladu?
+
+**A.** Abecední seřazení názvů dimenzí.
+
+**B.** Sloučení všech tabulek do jednoho souboru.
+
+**C.** Odsouhlasení cílových dat proti zdroji.
+
+**D.** Nahrazení všech chybějících hodnot nulou.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Reconciliation znamená porovnání cílových dat se zdrojem. Kontrolovat lze například:
+
+- počet objednávek;
+- počet položek;
+- celkové množství;
+- celkové tržby;
+- celkové náklady.
+
+Pokud se výsledky po transformaci liší, musí být rozdíl vysvětlen konkrétním pravidlem nebo chybou. Nevysvětlené rozdíly se před předáním dat do reportingu nesmí ignorovat.
+
+---
+
