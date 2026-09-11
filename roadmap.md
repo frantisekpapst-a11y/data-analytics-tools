@@ -1,25 +1,5 @@
-09	Orchestrace	návrh pořadí datových kroků
 10	Modern Data Stack	mapa kategorií a rolí
 11	Kombinace nástrojů	závěrečný architektonický scénář
-
-Lekce 9 — Orchestrace jako princip
-Orchestrace patří do přehledu moderního data stacku, ale její praktická implementace patří do Automation.
-V tomto bloku probereme
-co orchestrace znamená;
-co je pipeline;
-co je task;
-co je dependency;
-proč musí být kroky ve správném pořadí;
-co se má stát při chybě;
-jak orchestrace souvisí s monitoringem a logováním.
-Modelový návrh
-Načti data
-→ validuj data
-→ transformuj data
-→ aktualizuj analytickou tabulku
-→ obnov report
-→ zkontroluj výsledek
-Výstupem bude návrh procesu, nikoli jeho automatické spuštění.
 
 Lekce 10 — Modern Data Stack a role nástrojů
 Nyní spojíme všechny předchozí části do jedné mapy.
@@ -147,6 +127,8 @@ co spouštím
 → čím
 → co se stane při chybě
 → kde je výsledek
+
+
 2. Analytical Workflow
 
 Tohle bych dal opravdu až úplně na konec.

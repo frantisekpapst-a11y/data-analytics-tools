@@ -1,6 +1,6 @@
 # Data Analytics Tools — Mini Tests
 
-## Minitesty — Lekce 1: Data Analytics Environment Map
+## Lekce 1: Data Analytics Environment Map
 
 ### 1. Vrstvy datového prostředí
 
@@ -331,7 +331,7 @@ Jeho hlavní odpovědností je:
 
 ---
 
-# Minitesty — Lekce 2: Jupyter Notebook Workflow
+# Lekce 2: Jupyter Notebook Workflow
 
 ### 11. Jupyter Notebook a Python skript
 
@@ -617,7 +617,7 @@ Taková struktura pomáhá čtenáři pochopit účel analýzy, použitá data, 
 
 ---
 
-# Minitesty — Lekce 3: Větší datasety a efektivní práce s daty
+# Lekce 3: Větší datasety a efektivní práce s daty
 
 ### 21. Velikost dat na disku a v paměti
 
@@ -878,7 +878,7 @@ Spark začíná dávat smysl tehdy, když ani po těchto optimalizacích jeden p
 
 ---
 
-# Minitesty — Lekce 4: Spark — proč existuje
+# Lekce 4: Spark — proč existuje
 
 ### 31. Hlavní účel Apache Spark
 
@@ -1122,7 +1122,7 @@ Parquet partitioning představuje fyzické rozdělení uložených dat, napřík
 
 ---
 
-# Minitesty — Lekce 5: Data warehouse, data lake a lakehouse
+# Lekce 5: Data warehouse, data lake a lakehouse
 
 ### 42. Provozní a analytické prostředí
 
@@ -1394,7 +1394,7 @@ Pokud se výsledky po transformaci liší, musí být rozdíl vysvětlen konkré
 
 ---
 
-# Minitesty — Lekce 6: ETL, ELT a datové vrstvy
+# Lekce 6: ETL, ELT a datové vrstvy
 
 ### 52. ETL proces
 
@@ -1701,7 +1701,7 @@ Pomáhá zjistit:
 
 ---
 
-# Minitesty — Lekce 7: Cloud Platforms
+# Lekce 7: Cloud Platforms
 
 ### 62. Model cloudové databázové služby
 
@@ -2018,7 +2018,7 @@ Nejde o přesné technické náhrady. Mapa pomáhá rozpoznat, jakou roli služb
 
 ---
 
-# Minitesty — Lekce 8: Databricks
+# Lekce 8: Databricks
 
 ### 72. Účel platformy Databricks
 
@@ -2335,3 +2335,313 @@ Podrobné plánování, retry, monitoring a alerty budou součástí navazujíc�
 
 ---
 
+# Lekce 9: Orchestrace
+
+### 82. Účel orchestrace
+
+Co nejlépe vystihuje orchestraci datového procesu?
+
+**A.** Ruční opravu hodnot v jednom excelovém souboru.
+
+**B.** Řízení pořadí, závislostí a výsledků datových úkolů.
+
+**C.** Uložení všech zdrojů do jedné databázové tabulky.
+
+**D.** Vytvoření vizuálního motivu Power BI reportu.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Orchestrace koordinuje jednotlivé úkoly datového procesu. Určuje například:
+
+- které kroky se mají provést;
+- v jakém pořadí;
+- jaké jsou mezi nimi závislosti;
+- kdy může proces pokračovat;
+- co se má stát při úspěchu nebo chybě.
+
+Orchestrace sama nemusí data transformovat. Řídí nástroje a úkoly, které transformace skutečně provádějí.
+
+---
+
+### 83. Task a workflow
+
+Jaký je rozdíl mezi taskem a workflow?
+
+**A.** Task je jeden krok, workflow je celý proces z více kroků.
+
+**B.** Task je celý proces, workflow je jeden datový sloupec.
+
+**C.** Task ukládá data, workflow vytváří pouze vizualizace.
+
+**D.** Mezi taskem a workflow není žádný rozdíl.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+**Task** neboli úkol je jeden konkrétní krok, například:
+
+- načtení CSV;
+- spuštění SQL dotazu;
+- validace počtu řádků;
+- transformace dat;
+- obnovení Power BI modelu.
+
+**Workflow** je celý řízený proces složený z více tasks.
+
+```text
+task
+→ jeden krok
+
+workflow
+→ celý proces tvořený více kroky
+```
+
+---
+
+### 84. Závislost mezi úkoly
+
+Transformace se smí spustit pouze po úspěšném načtení dat. Co tím definujeme?
+
+**A.** Datový typ transformačního výstupu.
+
+**B.** Primární klíč cílové tabulky.
+
+**C.** Závislost mezi dvěma úkoly.
+
+**D.** Relaci mezi tabulkami v Power BI.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Závislost neboli **dependency** určuje podmínku, která musí být splněna před spuštěním navazujícího úkolu.
+
+```text
+načtení dat úspěšně
+→ spustit transformaci
+
+načtení dat selže
+→ transformaci nespouštět
+```
+
+Závislosti chrání proces před zpracováním neúplných nebo nedostupných vstupů.
+
+---
+
+### 85. Paralelní načítání zdrojů
+
+ERP data, dodavatelský CSV soubor a kurzovní API jsou nezávislé zdroje. Jak je lze efektivně načítat?
+
+**A.** Až po dokončení Power BI reportu.
+
+**B.** Vždy přesně jeden po druhém.
+
+**C.** Pouze ručním spojením před workflow.
+
+**D.** Paralelně se společným navazujícím krokem.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+Pokud jednotlivé vstupní úkoly nepotřebují výsledky ostatních vstupů, mohou běžet paralelně:
+
+```text
+načtení ERP databáze ──────┐
+načtení dodavatelského CSV ├──→ spojení dat
+načtení kurzů z API ───────┘
+```
+
+Společný transformační krok se spustí až po dokončení všech vstupů, které potřebuje.
+
+Paralelní zpracování může zkrátit dobu workflow, ale zároveň může zvýšit okamžité zatížení zdrojů a výpočetních prostředků.
+
+---
+
+### 86. DAG
+
+Co v orchestraci vyjadřuje zkratka DAG?
+
+**A.** Datový formát pro agregované tabulky.
+
+**B.** Orientovaný graf úkolů bez cyklů.
+
+**C.** Druh Power BI sémantického modelu.
+
+**D.** Přístupovou roli databázového uživatele.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+DAG znamená **Directed Acyclic Graph**, tedy orientovaný graf bez cyklů.
+
+Pro základní orientaci stačí:
+
+```text
+uzel
+→ task
+
+šipka
+→ závislost a směr procesu
+
+bez cyklu
+→ proces se nevrací nekonečně sám do sebe
+```
+
+DAG přehledně zobrazuje, které úkoly mohou běžet současně a které musí čekat na předchozí výsledky.
+
+---
+
+### 87. Selhání povinného zdroje
+
+Povinný zdroj selhal a bez něj nelze správně vypočítat Gold KPI. Jak má workflow reagovat?
+
+**A.** Zastavit závislé výstupy a zaznamenat chybu.
+
+**B.** Nahradit chybějící data náhodnými hodnotami.
+
+**C.** Aktualizovat report bez jakéhokoliv upozornění.
+
+**D.** Odstranit předchozí správná historická data.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Závislé Gold výstupy nesmějí být aktualizovány z neúplných vstupů.
+
+```text
+povinný vstup selže
+→ závislé transformace se nespustí
+→ chyba se zaznamená
+→ neúplný výsledek se nepublikuje
+```
+
+Předchozí správná data se bez konkrétního důvodu nemažou. Uživatelé také nesmějí dostat neúplný report bez informace o omezení.
+
+---
+
+### 88. Technický a datový úspěch
+
+Načítací task skončil bez technické chyby, ale vytvořil tabulku s nulovým počtem řádků. Co z toho vyplývá?
+
+**A.** Data jsou určitě správná, protože task neselhal.
+
+**B.** Nulový počet řádků je vždy správný výsledek.
+
+**C.** Je nutná datová kontrola před pokračováním.
+
+**D.** Workflow musí automaticky vytvořit náhodné řádky.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Technické dokončení tasku nepotvrzuje věcnou správnost jeho výstupu.
+
+```text
+task skončil bez chyby
+→ technický úspěch
+
+výstup obsahuje očekávaná data
+→ datový úspěch
+```
+
+Workflow musí ověřit, zda je prázdný výstup očekávaný business stav, nebo chyba. Kontrolovat lze například počet řádků, očekávané sloupce, duplicity, chybějící klíče a důležité součty.
+
+---
+
+### 89. Správné pořadí procesu
+
+Ve kterém pořadí má proběhnout správně navržený datový proces?
+
+**A.** Obnovení reportu → načtení → validace → transformace.
+
+**B.** Transformace → načtení → report → validace.
+
+**C.** Validace → report → načtení → transformace.
+
+**D.** Načtení → validace → transformace → report.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+Správný proces nejdříve získá a ověří data, potom je připraví a nakonec obnoví report:
+
+```text
+načtení dat
+→ validace
+→ transformace
+→ aktualizace cílové tabulky
+→ obnovení reportu
+```
+
+Pokud validace nebo transformace selže, report se nemá obnovit nad neúplným novým výsledkem.
+
+---
+
+### 90. Povinný a volitelný zdroj
+
+Jaký je rozdíl mezi povinným a volitelným zdrojem workflow?
+
+**A.** Povinný zdroj je vždy větší než volitelný.
+
+**B.** Bez povinného zdroje nelze vytvořit správný závislý výstup.
+
+**C.** Volitelný zdroj se nikdy nesmí načítat.
+
+**D.** Povinný zdroj musí být vždy databáze.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Kritičnost zdroje vychází z jeho business významu pro konkrétní výstup, nikoliv z formátu nebo velikosti.
+
+```text
+povinný zdroj chybí
+→ závislý výstup nelze správně vytvořit
+
+volitelný zdroj chybí
+→ nezávislý základní výstup může vzniknout
+→ omezení musí být známé a zaznamenané
+```
+
+Povinným i volitelným zdrojem může být databáze, soubor nebo API.
+
+---
+
+### 91. Výstup koncepčního návrhu
+
+Jaký má být výstup této koncepční lekce o orchestraci?
+
+**A.** Návrh kroků, pořadí, závislostí a chybových větví.
+
+**B.** Kompletní produkční plánování se všemi alerty.
+
+**C.** Hotový cloudový orchestrátor nasazený do provozu.
+
+**D.** Finální Power BI dashboard s vytvořenými vizuály.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Výstupem je logický návrh datového procesu:
+
+- seznam jednotlivých tasks;
+- jejich pořadí;
+- sekvenční a paralelní větve;
+- závislosti;
+- povinné a volitelné vstupy;
+- chování při úspěchu nebo chybě;
+- základní validační body.
+
+Podrobný scheduling, retry, monitoring, alerty a produkční nasazení budou řešeny v navazujícím bloku Automation.
+
+---
