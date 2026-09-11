@@ -5,7 +5,7 @@
 
 
 
-Lekce 9 — Databricks
+Lekce 8 — Databricks
 
 Databricks spojí předchozí témata:
 Jupyter-style notebooks
@@ -50,7 +50,7 @@ produkční nasazení.
 To bude součást následujícího bloku Automation.
 
 
-Lekce 10 — Orchestrace jako princip
+Lekce 9 — Orchestrace jako princip
 
 Orchestrace patří do přehledu moderního data stacku, ale její praktická implementace patří do Automation.
 
@@ -73,7 +73,7 @@ Načti data
 Výstupem bude návrh procesu, nikoli jeho automatické spuštění.
 
 
-Lekce 11 — Modern Data Stack a role nástrojů
+Lekce 10 — Modern Data Stack a role nástrojů
 
 Nyní spojíme všechny předchozí části do jedné mapy.
 
@@ -99,7 +99,7 @@ kdo ji obvykle spravuje;
 jak moc ji potřebuje ovládat datový analytik.
 
 
-Lekce 12 — Volba a kombinace nástrojů
+Lekce 11 — Volba a kombinace nástrojů
 
 Toto bude závěrečná a nejdůležitější lekce bloku.
 
@@ -135,22 +135,6 @@ upozornění na technologie, které by byly pro daný scénář zbytečné.
 
 Nebude se ještě realizovat kompletní end-to-end řešení. To patří až do Analytical Workflow Portfolio.
 
-
-
-tools-notebooks/databricks-lakehouse	9	Jednoduchá ukázka zpracování dat v Databricks notebooku
-
-Lekce 9 — databricks-lakehouse
-
-Tato složka bude obsahovat notebook, ve kterém si na malém příkladu ukážeme, jak se předchozí návrh realizuje v prostředí Databricks.
-
-Nepůjde o hlubokou výuku PySparku. Notebook bude zaměřený na pochopení pracovního postupu:
-
-načtení dat
-→ základní kontrola
-→ jednoduchá transformace
-→ uložení nebo příprava výsledné tabulky
-
-Použijeme jen minimum kódu potřebné k pochopení notebooku a lakehouse workflow. Nebudeme se učit PySpark jako samostatný programovací nástroj.
 
 
 1. Automation
