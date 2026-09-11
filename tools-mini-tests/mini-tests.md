@@ -2017,3 +2017,321 @@ Amazon Redshift
 Nejde o přesné technické náhrady. Mapa pomáhá rozpoznat, jakou roli služba plní v datové architektuře.
 
 ---
+
+# Minitesty — Lekce 8: Databricks
+
+### 72. Účel platformy Databricks
+
+Co nejlépe vystihuje Databricks?
+
+**A.** Formát souboru nahrazující CSV.
+
+**B.** Platforma propojující notebooky, compute, Spark, SQL a lakehouse.
+
+**C.** Nástroj určený pouze pro Power BI vizuály.
+
+**D.** Lokální databáze zabudovaná do Pythonu.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Databricks je cloudová datová a analytická platforma. V jednom prostředí propojuje:
+
+- notebooky;
+- výpočetní prostředky;
+- Spark;
+- SQL;
+- lakehouse tabulky;
+- řízení dat;
+- jobs a pipelines.
+
+Databricks není pouze notebook, databáze ani souborový formát.
+
+---
+
+### 73. Databricks workspace
+
+Co představuje Databricks workspace?
+
+**A.** Jeden fyzický worker ve Spark clusteru.
+
+**B.** Jeden soubor obsahující Delta tabulku.
+
+**C.** Prostředí pro notebooky, dotazy, jobs a další objekty.
+
+**D.** Výhradně úložiště původních CSV souborů.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Workspace je společné pracovní prostředí, ve kterém tým organizuje například:
+
+- notebooky;
+- SQL dotazy;
+- jobs a pipelines;
+- dashboards;
+- Git folders;
+- přístup k datům a compute.
+
+Workspace není samotný server, jedna tabulka ani úložiště všech firemních dat.
+
+---
+
+### 74. Notebook a compute
+
+Proč Databricks notebook potřebuje compute?
+
+**A.** Compute poskytuje výkon potřebný ke spuštění kódu.
+
+**B.** Compute převádí notebook na Power BI dashboard.
+
+**C.** Compute nahrazuje Unity Catalog.
+
+**D.** Compute ukládá každý notebook jako CSV.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+Notebook obsahuje kód, dokumentaci a výstupy. Compute poskytuje procesory, operační paměť a běhové prostředí, ve kterém se příkazy skutečně provedou.
+
+```text
+notebook
+→ obsahuje příkazy
+
+compute
+→ poskytuje výpočetní výkon
+```
+
+Notebook bez dostupného compute může obsahovat připravený kód, ale nemá prostředky k jeho vykonání.
+
+---
+
+### 75. SQL warehouse
+
+Které compute je přímo optimalizované pro analytické SQL dotazy a připojení BI nástrojů?
+
+**A.** Unity Catalog.
+
+**B.** Databricks Volume.
+
+**C.** Power BI workspace.
+
+**D.** SQL warehouse.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+SQL warehouse je výpočetní prostředí optimalizované pro SQL analytiku. Lze ho použít například pro:
+
+- Databricks SQL;
+- SQL notebooky;
+- analytické dotazy;
+- připojení Power BI;
+- souběžné dotazy více uživatelů.
+
+SQL warehouse není uložená tabulka. Poskytuje výkon potřebný ke zpracování SQL dotazů nad daty.
+
+---
+
+### 76. SQL v Databricks notebooku
+
+Co znamená příkaz `%sql` na začátku Databricks notebookové buňky?
+
+**A.** Uložit celý notebook do SQL Serveru.
+
+**B.** Spustit obsah dané buňky jako SQL.
+
+**C.** Vytvořit nový SQL warehouse.
+
+**D.** Převést Spark DataFrame na Pandas DataFrame.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+`%sql` je magic command určující jazyk konkrétní buňky:
+
+```sql
+%sql
+
+SELECT *
+FROM logistics.silver.shipments;
+```
+
+V jednom Databricks notebooku lze kombinovat například Python, PySpark a SQL. Každá jednotlivá buňka se ale vykonává v jednom zvoleném jazyce.
+
+---
+
+### 77. Soubor a registrovaná tabulka
+
+Jaký je hlavní praktický rozdíl mezi původním CSV souborem a registrovanou tabulkou v Databricks?
+
+**A.** Tabulka má definovanou strukturu a lze ji používat pomocí názvu.
+
+**B.** CSV automaticky obsahuje transakční log.
+
+**C.** Tabulku nelze dotazovat pomocí SQL.
+
+**D.** CSV vždy zabírá méně místa než tabulka.
+
+#### Řešení
+
+Správná odpověď je **A**.
+
+K původnímu souboru obvykle přistupujeme pomocí jeho cesty:
+
+```text
+/Volumes/logistics/bronze/source_files/shipments.csv
+```
+
+Registrovanou tabulku používáme pomocí názvu:
+
+```text
+logistics.silver.shipments
+```
+
+Tabulka má definované sloupce a datové typy, lze ji dotazovat pomocí SQL a řídit k ní přístup prostřednictvím katalogu. Také tabulka je pod povrchem fyzicky uložená jako datové soubory.
+
+---
+
+### 78. Delta Lake
+
+Co Delta Lake přidává k datovým souborům Parquet?
+
+**A.** Automatický Power BI report.
+
+**B.** Nový fyzický Spark worker.
+
+**C.** Transakční log a řízení verzí tabulky.
+
+**D.** Povinnost používat pouze jazyk Python.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Delta tabulka je zjednodušeně tvořena:
+
+```text
+Delta tabulka
+├── datové soubory Parquet
+└── transakční log
+```
+
+Transakční log zaznamenává změny a verze tabulky. Delta Lake díky němu podporuje například:
+
+- spolehlivé zápisy;
+- kontrolu datového schématu;
+- `UPDATE`, `DELETE` a `MERGE`;
+- historii verzí;
+- time travel;
+- bezpečnější souběžnou práci více procesů.
+
+---
+
+### 79. Hierarchie Unity Catalogu
+
+Co v názvu `logistics.silver.shipments` představuje část `silver`?
+
+**A.** Catalog.
+
+**B.** Schema.
+
+**C.** Table.
+
+**D.** Compute.
+
+#### Řešení
+
+Správná odpověď je **B**.
+
+Unity Catalog používá hierarchii:
+
+```text
+catalog.schema.table
+```
+
+V uvedeném příkladu:
+
+```text
+logistics.silver.shipments
+│         │      │
+catalog   schema table
+```
+
+Bronze, Silver a Gold jsou logické datové vrstvy. V tomto návrhu jsme je implementovali pomocí stejně pojmenovaných databázových schemas. Jde o praktickou organizační konvenci, nikoliv povinnost Databricks.
+
+---
+
+### 80. Medallion architektura
+
+Který tok správně odpovídá medallion architektuře v Databricks?
+
+**A.** Gold → Bronze → Silver → zdrojové soubory.
+
+**B.** Silver → Power BI → Bronze → Gold.
+
+**C.** Bronze → Gold → Silver → Power BI.
+
+**D.** Bronze → Silver → Gold → Power BI.
+
+#### Řešení
+
+Správná odpověď je **D**.
+
+Jednotlivé vrstvy mají odlišné role:
+
+```text
+Bronze
+→ původní nebo téměř neupravená data
+
+Silver
+→ vyčištěná, validovaná a sjednocená data
+
+Gold
+→ business-ready tabulky a agregace
+
+Power BI
+→ sémantický model a reporting
+```
+
+Power BI by měl primárně používat řízené Gold tabulky, nikoliv přímo původní CSV a JSON soubory.
+
+---
+
+### 81. Závislost mezi úkoly
+
+Bronze notebook musí úspěšně skončit před spuštěním Silver notebooku. Co tento požadavek představuje?
+
+**A.** Datový typ sloupce.
+
+**B.** Režim zápisu Delta tabulky.
+
+**C.** Závislost mezi úkoly jobu.
+
+**D.** Relaci v Power BI modelu.
+
+#### Řešení
+
+Správná odpověď je **C**.
+
+Závislost určuje podmínku a pořadí spouštění úkolů:
+
+```text
+Bronze úspěšně
+→ spustit Silver
+
+Silver úspěšně
+→ spustit Gold
+```
+
+Pokud předchozí krok selže, navazující krok se nemá spustit nad neúplnými daty. Notebook obsahuje transformační kód, zatímco job spouští a koordinuje jednotlivé úkoly.
+
+Podrobné plánování, retry, monitoring a alerty budou součástí navazujícího bloku Automation.
+
+---
+
