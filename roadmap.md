@@ -1,28 +1,3 @@
-10	Modern Data Stack	mapa kategorií a rolí
-11	Kombinace nástrojů	závěrečný architektonický scénář
-
-Lekce 10 — Modern Data Stack a role nástrojů
-Nyní spojíme všechny předchozí části do jedné mapy.
-Kategorie moderního data stacku
-Vrstva	Účel
-Sources	vznik a poskytování dat
-Ingestion	přenos dat ze zdrojů
-Storage	ukládání dat
-Transformation	čištění, spojování a výpočty
-Orchestration	řízení pořadí a spouštění kroků
-Data Quality	kontrola správnosti dat
-Catalog & Governance	popis, vlastnictví a řízení dat
-Analytics	analýza a tvorba datových výstupů
-Reporting	prezentace výsledků
-Monitoring	sledování správného fungování
-Důležitá zásada
-Nebudeme se učit velký seznam konkrétních produktů. Důležitější bude rozpoznat:
-jaký problém daná kategorie řeší;
-jaký má vstup a výstup;
-kdo ji obvykle spravuje;
-jak moc ji potřebuje ovládat datový analytik.
-
-
 Lekce 11 — Volba a kombinace nástrojů
 Toto bude závěrečná a nejdůležitější lekce bloku.
 Rozhodovací otázky
