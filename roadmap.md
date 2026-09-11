@@ -10,7 +10,6 @@ Lekce 9 — Databricks
 Databricks spojí předchozí témata:
 Jupyter-style notebooks
 + Spark
-+ PySpark
 + SQL
 + cloud
 + lakehouse
